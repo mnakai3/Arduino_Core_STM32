@@ -4,8 +4,8 @@
 # For more info:
 # https://github.com/arduino/Arduino/wiki/Arduino-IDE-1.5-3rd-party-Hardware-specification
 
-name=STM32 Boards (selected from submenu)
-version=1.0.0
+name=SeeedJP STM32 Boards
+version=0.1.0
 
 # STM compile variables
 # ----------------------
@@ -74,7 +74,7 @@ build.usb_flags=-DUSBCON -DUSBD_VID={build.vid} '-DUSB_MANUFACTURER={build.usb_m
 build.usb_manufacturer="Unknown"
 
 # Build information's
-build.info.flags=-D{build.series} -DARDUINO={runtime.ide.version} -DARDUINO_{build.board} -DARDUINO_ARCH_{build.arch} -DBOARD_NAME="{build.board}"
+build.info.flags=-D{build.series} -DARDUINO={runtime.ide.version} -DARDUINO_{build.board} -DARDUINO_ARCH_{build.arch} -DBOARD_NAME="{build.board}" {build.debug_print}
 
 # Defaults config
 build.xSerial=-DHAL_UART_MODULE_ENABLED
@@ -163,6 +163,17 @@ tools.stlink_upload.path.linux64={runtime.hardware.path}/tools/linux64
 tools.stlink_upload.upload.params.verbose=-d
 tools.stlink_upload.upload.params.quiet=
 tools.stlink_upload.upload.pattern="{path}/{cmd}" {serial.port.file} {upload.altID} {upload.usbID} "{build.path}/{build.project_name}.bin"
+
+# OpenOCD upload
+tools.openocd.path.windows={runtime.tools.openocd.path}
+tools.openocd.path.macosx={runtime.tools.openocd.path}/macosx
+tools.openocd.path.linux={runtime.tools.openocd.path}/linux
+tools.openocd.cmd.macosx=bin/openocd
+tools.openocd.cmd.linux=bin/openocd
+tools.openocd.cmd.windows=bin/openocd.exe
+tools.openocd.upload.params.verbose=-d2
+tools.openocd.upload.params.quiet=-d0
+tools.openocd.upload.pattern="{path}/{cmd}" -f "{path}/scripts/interface/cmsis-dap.cfg" -c 'transport select swd' -f "{path}/scripts/target/stm32f4x.cfg" -c "program {{{build.path}/{build.project_name}.bin}} verify reset 0x08000000; shutdown"
 
 # Serial upload for generic STM32
 # Note: Boot0 line needs to be high on board reset to enable it
