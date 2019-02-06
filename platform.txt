@@ -196,3 +196,18 @@ tools.bmp_upload.upload.speed=230400
 tools.bmp_upload.upload.params.verbose=-batch
 tools.bmp_upload.upload.params.quiet=--batch-silent
 tools.bmp_upload.upload.pattern="{path}{cmd}" -nx -b {upload.speed} {upload.verbose} -ex "set confirm off" -ex "target extended-remote {serial.port}" -ex "monitor swdp_scan" -ex "attach 1" -ex "load" -ex "compare-sections" -ex "kill" "{build.path}/{build.project_name}.elf"
+
+# stm32flash
+tools.stm32flash.cmd=stm32flash
+tools.stm32flash.cmd.windows=dfu_upload.bat
+tools.stm32flash.cmd.macosx=dfu_upload
+tools.stm32flash.cmd.linux=dfu_upload
+tools.stm32flash.cmd.linux64=dfu_upload
+tools.stm32flash.path.windows={runtime.tools.stm32_dfu_upload_tool.path}/win
+tools.stm32flash.path.macosx={runtime.tools.stm32_dfu_upload_tool.path}/macosx
+tools.stm32flash.path.linux={runtime.tools.stm32_dfu_upload_tool.path}/linux
+tools.stm32flash.path.linux64={runtime.tools.stm32_dfu_upload_tool.path}/linux64
+tools.stm32flash.upload.params.verbose=-d
+tools.stm32flash.upload.params.quiet=
+tools.stm32flash.upload.pattern="{path}/{cmd}" {upload.altID} {upload.usbID} "{build.path}/{build.project_name}.bin" {upload.dfuse_addr}
+
