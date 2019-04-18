@@ -81,7 +81,7 @@ build.xSerial=-DHAL_UART_MODULE_ENABLED
 build.enable_usb=
 build.startup_file=
 build.flags.optimize=-Os
-build.flags.ldspecs=--specs=nano.specs
+build.flags.ldspecs=--specs=nano.specs -u _printf_float -u _scanf_float
 
 # Pre and post build hooks
 build.opt.name=build_opt.h
