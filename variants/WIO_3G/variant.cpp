@@ -37,8 +37,8 @@ const PinName digitalPin[] = {
 	PA_10,	// D10
 	PA_11,	// D11
 	PA_12,	// D12
-	PA_13,	// D13 - SWDIO
-	PA_14,	// D14 - SWCLK
+	NC,		// D13 - SWDIO
+	NC,		// D14 - SWCLK
 	PA_15,	// D15 - SD_POWR
 
 	PB_0,	// D16 - BAT_C
