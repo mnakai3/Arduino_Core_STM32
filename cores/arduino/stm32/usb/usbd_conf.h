@@ -12,7 +12,7 @@
   * This software component is licensed by ST under Ultimate Liberty license
   * SLA0044, the "License"; You may not use this file except in compliance with
   * the License. You may obtain a copy of the License at:
-  *                      http://www.st.com/SLA0044
+  *                      www.st.com/SLA0044
   *
   ******************************************************************************
   */
@@ -22,13 +22,12 @@
 #define __USBD_CONF_H
 
 #ifdef __cplusplus
- extern "C" {
+extern "C" {
 #endif
 
 #ifdef USBCON
 /* Includes ------------------------------------------------------------------*/
 #include "stm32_def.h"
-#include "variant.h"
 
 #if !defined(USB_BASE) && !defined(USB_OTG_DEVICE_BASE)
 #error "This board does not support USB! Select 'None' in the 'Tools->USB interface' menu"
@@ -44,20 +43,20 @@
 #if defined(USB_BASE)
 
 #if defined(STM32F1xx)
-  #define USB_IRQn USB_LP_CAN1_RX0_IRQn
-  #define USB_IRQHandler USB_LP_CAN1_RX0_IRQHandler
+#define USB_IRQn USB_LP_CAN1_RX0_IRQn
+#define USB_IRQHandler USB_LP_CAN1_RX0_IRQHandler
 #elif defined(STM32F3xx)
-  /* ToDo: Check remap on USB_LP_IRQn */
-  #ifndef USE_USB_INTERRUPT_REMAPPED
-    #define USB_IRQn USB_LP_CAN_RX0_IRQn
-    #define USB_IRQHandler USB_LP_CAN_RX0_IRQHandler
-  #else
-    #define USB_IRQn USB_LP_IRQn
-    #define USB_IRQHandler USB_LP_IRQHandler
-  #endif /* USE_USB_INTERRUPT_REMAPPED */
+/* ToDo: Check remap on USB_LP_IRQn */
+#ifndef USE_USB_INTERRUPT_REMAPPED
+#define USB_IRQn USB_LP_CAN_RX0_IRQn
+#define USB_IRQHandler USB_LP_CAN_RX0_IRQHandler
+#else
+#define USB_IRQn USB_LP_IRQn
+#define USB_IRQHandler USB_LP_IRQHandler
+#endif /* USE_USB_INTERRUPT_REMAPPED */
 #elif defined(STM32L1xx)
-  #define USB_IRQn USB_LP_IRQn
-  #define USB_IRQHandler USB_LP_IRQHandler
+#define USB_IRQn USB_LP_IRQn
+#define USB_IRQHandler USB_LP_IRQHandler
 #endif
 
 #endif /* USB_BASE */
@@ -104,6 +103,14 @@
 #ifndef USBD_AUDIO_FREQ
 #define USBD_AUDIO_FREQ                     22100U
 #endif /* USBD_AUDIO_FREQ */
+
+/* Interrupt priority */
+#ifndef USBD_IRQ_PRIO
+#define USBD_IRQ_PRIO                       1
+#endif /* USBD_IRQ_PRIO */
+#ifndef USBD_IRQ_SUBPRIO
+#define USBD_IRQ_SUBPRIO                    0
+#endif /* USBD_IRQ_SUBPRIO */
 
 /* Memory management macros */
 #ifndef USBD_malloc

@@ -23,60 +23,85 @@
 extern "C" {
 #endif
 
-
+#if defined(HAL_DAC_MODULE_ENABLED) || defined(HAL_TIM_MODULE_ENABLED)
 //This is the list of the IOs configured
 uint32_t g_anOutputPinConfigured[MAX_NB_PORT] = {0};
+#endif
 
 static int _readResolution = 10;
 static int _writeResolution = 8;
+static uint32_t _writeFreq = PWM_FREQUENCY;
 
-void analogReadResolution(int res) {
+void analogReadResolution(int res)
+{
   _readResolution = res;
 }
 
-void analogWriteResolution(int res) {
+void analogWriteResolution(int res)
+{
   _writeResolution = res;
 }
 
-static inline uint32_t mapResolution(uint32_t value, uint32_t from, uint32_t to) {
-  if (from == to)
-    return value;
-  if (from > to)
-    return value >> (from-to);
-  else
-    return value << (to-from);
+void analogWriteFrequency(uint32_t freq)
+{
+  _writeFreq = freq;
 }
 
+static inline uint32_t mapResolution(uint32_t value, uint32_t from, uint32_t to)
+{
+  if (from != to) {
+    if (from > to) {
+      value = (value < (uint32_t)(1 << (from - to))) ? 0 : ((value + 1) >> (from - to)) - 1;
+    } else {
+      if (value != 0) {
+        value = ((value + 1) << (to - from)) - 1;
+      }
+    }
+  }
+  return value;
+}
+
+void analogReference(eAnalogReference ulMode)
+{
+  UNUSED(ulMode);
+}
 
 //perform the read operation on the selected analog pin.
 //the initialization of the analog PIN is done through this function
 uint32_t analogRead(uint32_t ulPin)
 {
   uint32_t value = 0;
+#ifdef HAL_ADC_MODULE_ENABLED
   PinName p = analogInputToPinName(ulPin);
-  if(p != NC) {
+  if (p != NC) {
     value = adc_read_value(p);
     value = mapResolution(value, ADC_RESOLUTION, _readResolution);
   }
+#else
+  UNUSED(ulPin);
+#endif
   return value;
 }
 
 
-void analogOutputInit(void) {
+void analogOutputInit(void)
+{
 }
 
 // Right now, PWM output only works on the pins with
 // hardware support.  These are defined in the appropriate
 // variant.cpp file.  For the rest of the pins, we default
 // to digital output.
-void analogWrite(uint32_t ulPin, uint32_t ulValue) {
-
+void analogWrite(uint32_t ulPin, uint32_t ulValue)
+{
+#if defined(HAL_DAC_MODULE_ENABLED)
   uint8_t do_init = 0;
+#endif
   PinName p = digitalPinToPinName(ulPin);
-  if(p != NC) {
+  if (p != NC) {
 #ifdef HAL_DAC_MODULE_ENABLED
-    if(pin_in_pinmap(p, PinMap_DAC)) {
-      if(is_pin_configured(p, g_anOutputPinConfigured) == false) {
+    if (pin_in_pinmap(p, PinMap_DAC)) {
+      if (is_pin_configured(p, g_anOutputPinConfigured) == false) {
         do_init = 1;
         set_pin_configured(p, g_anOutputPinConfigured);
       }
@@ -84,26 +109,26 @@ void analogWrite(uint32_t ulPin, uint32_t ulValue) {
       dac_write_value(p, ulValue, do_init);
     } else
 #endif //HAL_DAC_MODULE_ENABLED
-      if(pin_in_pinmap(p, PinMap_PWM)) {
-        if(is_pin_configured(p, g_anOutputPinConfigured) == false) {
-          do_init = 1;
+#ifdef HAL_TIM_MODULE_ENABLED
+      if (pin_in_pinmap(p, PinMap_PWM)) {
+        if (is_pin_configured(p, g_anOutputPinConfigured) == false) {
           set_pin_configured(p, g_anOutputPinConfigured);
         }
         ulValue = mapResolution(ulValue, _writeResolution, PWM_RESOLUTION);
-        pwm_start(p, PWM_FREQUENCY*PWM_MAX_DUTY_CYCLE,
-                   PWM_MAX_DUTY_CYCLE,
-                   ulValue, do_init);
-      } else { //DIGITAL PIN ONLY
+        pwm_start(p, _writeFreq, ulValue);
+      } else
+#endif /* HAL_TIM_MODULE_ENABLED */
+      {
+        //DIGITAL PIN ONLY
         // Defaults to digital write
         pinMode(ulPin, OUTPUT);
         ulValue = mapResolution(ulValue, _writeResolution, 8);
         if (ulValue < 128) {
           digitalWrite(ulPin, LOW);
-        }
-        else {
+        } else {
           digitalWrite(ulPin, HIGH);
+        }
       }
-    }
   }
 }
 

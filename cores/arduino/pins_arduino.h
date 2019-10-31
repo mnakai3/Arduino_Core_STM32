@@ -17,8 +17,11 @@
 */
 #ifndef _PINS_ARDUINO_H_
 #define _PINS_ARDUINO_H_
+#include <stdlib.h> /* Required for static_assert */
 // Include board variant
 #include "variant.h"
+#include "PinNames.h"
+
 
 // Avoid PortName issue
 _Static_assert(LastPort <= 0x0F, "PortName must be less than 16");
@@ -48,12 +51,19 @@ enum {
 };
 
 // Arduino analog pins
+#ifndef NUM_ANALOG_INPUTS
+#define NUM_ANALOG_INPUTS 0
+#endif
+#ifndef NUM_ANALOG_FIRST
+#define NUM_ANALOG_FIRST NUM_DIGITAL_PINS
+#endif
+
 // Analog pins must be contiguous to be able to loop on each value
 #define MAX_ANALOG_INPUTS 24
 _Static_assert(NUM_ANALOG_INPUTS <= MAX_ANALOG_INPUTS,
-               "Core NUM_ANALOG_INPUTS limited to MAX_ANALOG_INPUTS" );
+               "Core NUM_ANALOG_INPUTS limited to MAX_ANALOG_INPUTS");
 _Static_assert(NUM_ANALOG_FIRST >= NUM_ANALOG_INPUTS,
-               "First analog pin value (A0) must be greater than or equal to NUM_ANALOG_INPUTS" );
+               "First analog pin value (A0) must be greater than or equal to NUM_ANALOG_INPUTS");
 
 // Defined for backward compatibility with Firmata which unfortunately use it
 #define AEND (NUM_ANALOG_FIRST+NUM_ANALOG_INPUTS)
@@ -198,9 +208,25 @@ static const uint8_t SCK  = PIN_SPI_SCK;
 static const uint8_t SDA = PIN_WIRE_SDA;
 static const uint8_t SCL = PIN_WIRE_SCL;
 
+// ADC internal channels (not a pins)
+// Only used for analogRead()
+#if defined(ADC_CHANNEL_TEMPSENSOR) || defined(ADC_CHANNEL_TEMPSENSOR_ADC1)
+#define ATEMP        (NUM_DIGITAL_PINS + 1)
+#endif
+#ifdef ADC_CHANNEL_VREFINT
+#define AVREF        (NUM_DIGITAL_PINS + 2)
+#endif
+#ifdef ADC_CHANNEL_VBAT
+#define AVBAT        (NUM_DIGITAL_PINS + 3)
+#endif
+#if defined(ADC5) && defined(ADC_CHANNEL_TEMPSENSOR_ADC5)
+#define ATEMP_ADC5   (NUM_DIGITAL_PINS + 4)
+#endif
+
 #ifdef __cplusplus
 extern "C" {
 #endif
+extern const PinName digitalPin[];
 
 #define NOT_AN_INTERRUPT            NC // -1
 
@@ -211,10 +237,15 @@ extern "C" {
 uint32_t pinNametoDigitalPin(PinName p);
 
 // Convert an analog pin number to a digital pin number
+#if defined(NUM_ANALOG_INPUTS) && (NUM_ANALOG_INPUTS>0)
 // Used by analogRead api to have A0 == 0
 #define analogInputToDigitalPin(p)  (((uint32_t)p < NUM_ANALOG_INPUTS) ? (p+A0) : p)
+#else
+#define analogInputToDigitalPin(p)  (NUM_DIGITAL_PINS)
+#endif
 // Convert an analog pin number Axx to a PinName PX_n
-#define analogInputToPinName(p)     (digitalPinToPinName(analogInputToDigitalPin(p)))
+PinName analogInputToPinName(uint32_t pin);
+
 // All pins could manage EXTI
 #define digitalPinToInterrupt(p)    (digitalPinIsValid(p) ? p : NOT_AN_INTERRUPT)
 
@@ -282,13 +313,13 @@ uint32_t pinNametoDigitalPin(PinName p);
 #define DACC_RESOLUTION             12
 #endif
 #ifndef PWM_RESOLUTION
-#define PWM_RESOLUTION              8
+#define PWM_RESOLUTION              12
 #endif
 #ifndef PWM_FREQUENCY
 #define PWM_FREQUENCY               1000
 #endif
 #ifndef PWM_MAX_DUTY_CYCLE
-#define PWM_MAX_DUTY_CYCLE          255
+#define PWM_MAX_DUTY_CYCLE          4095
 #endif
 
 #endif /*_PINS_ARDUINO_H_*/

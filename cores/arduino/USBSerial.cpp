@@ -24,157 +24,175 @@
 #include "usbd_desc.h"
 #include "wiring.h"
 
-#define USB_TIMEOUT 50
-/* USB Device Core handle declaration */
-extern USBD_HandleTypeDef hUSBD_Device_CDC;
-extern __IO  uint32_t device_connection_status;
 extern __IO  uint32_t lineState;
-extern __IO uint8_t UserTxBuffer[APP_TX_DATA_SIZE];
-extern __IO uint8_t UserRxBuffer[APP_RX_DATA_SIZE];
-extern __IO uint32_t UserTxBufPtrIn;
-extern __IO uint32_t UserTxBufPtrOut;
-extern __IO uint32_t UserRxBufPtrIn;
-extern __IO uint32_t UserRxBufPtrOut;
 
 USBSerial SerialUSB;
+void serialEventUSB() __attribute__((weak));
 
-void USBSerial::begin(uint32_t /* baud_count */) {
-  // uart config is ignored in USB-CDC
-}
-
-void USBSerial::begin(uint32_t /* baud_count */, uint8_t /* config */) {
-  // uart config is ignored in USB-CDC
-}
-
-void USBSerial::end(void) {
-
-  USBD_LL_DeInit(&hUSBD_Device_CDC);
-}
-
-int USBSerial::availableForWrite(void)
+void USBSerial::begin(void)
 {
-  int ret_val;
+  CDC_init();
+}
 
-  /* UserTxBufPtrOut can be modified by TIM ISR, so in order to be sure that the */
-  /* value that we read is correct, we need to disable TIM Interrupt.            */
-  CDC_disable_TIM_Interrupt();
+void USBSerial::begin(uint32_t /* baud_count */)
+{
+  // uart config is ignored in USB-CDC
+  begin();
+}
 
-  if (UserTxBufPtrIn >= UserTxBufPtrOut) {
-    ret_val = (APP_TX_DATA_SIZE - 1 - UserTxBufPtrIn + UserTxBufPtrOut);
-  } else {
-    ret_val = (UserTxBufPtrOut - UserTxBufPtrIn - 1);
+void USBSerial::begin(uint32_t /* baud_count */, uint8_t /* config */)
+{
+  // uart config is ignored in USB-CDC
+  begin();
+}
+
+void USBSerial::end()
+{
+  CDC_deInit();
+}
+
+int USBSerial::availableForWrite()
+{
+  // Just transmit queue size, available for write
+  return static_cast<int>(CDC_TransmitQueue_WriteSize(&TransmitQueue));
+}
+
+size_t USBSerial::write(uint8_t ch)
+{
+  // Just write single-byte buffer.
+  return write(&ch, 1);
+}
+
+size_t USBSerial::write(const uint8_t *buffer, size_t size)
+{
+  size_t rest = size;
+  while (rest > 0 && CDC_connected()) {
+    // Determine buffer size available for write
+    auto portion = (size_t)CDC_TransmitQueue_WriteSize(&TransmitQueue);
+    // Truncate it to content size (if rest is greater)
+    if (rest < portion) {
+      portion = rest;
+    }
+    if (portion > 0) {
+      // Only if some space in the buffer exists.
+      // TS: Only main thread calls write and writeSize methods,
+      // it's thread-safe since IRQ does not affects
+      // TransmitQueue write position
+      CDC_TransmitQueue_Enqueue(&TransmitQueue, buffer, portion);
+      rest -= portion;
+      buffer += portion;
+      // After storing data, start transmitting process
+      CDC_continue_transmit();
+    }
   }
-
-  CDC_enable_TIM_Interrupt();
-
-  return ret_val;
+  return size - rest;
 }
 
-size_t USBSerial::write(uint8_t ch) {
-
-  /* UserTxBufPtrOut can be modified by TIM ISR, so in order to be sure that the */
-  /* value that we read is correct, we need to disable TIM Interrupt.            */
-  CDC_disable_TIM_Interrupt();
-
-  if (((UserTxBufPtrIn + 1) % APP_TX_DATA_SIZE) == UserTxBufPtrOut) {
-    // Buffer full!!! Force a flush to not loose data and go on
-    CDC_flush();
-  }
-  UserTxBuffer[UserTxBufPtrIn] = ch;
-  UserTxBufPtrIn = ((UserTxBufPtrIn + 1) % APP_TX_DATA_SIZE);
-
-  CDC_enable_TIM_Interrupt();
-
-  return 1;
+int USBSerial::available(void)
+{
+  // Just ReceiveQueue size, available for reading
+  return static_cast<int>(CDC_ReceiveQueue_ReadSize(&ReceiveQueue));
 }
 
-size_t USBSerial::write(const uint8_t *buffer, size_t size){
-  size_t i = 0;
-  for (i=0; i < size; i++) {
-    if (write(buffer[i]) != 1) {
-      break;
-	}
-  }
-  return i;
+int USBSerial::read(void)
+{
+  // Dequeue only one char from queue
+  // TS: it safe, because only main thread affects ReceiveQueue->read pos
+  auto ch = CDC_ReceiveQueue_Dequeue(&ReceiveQueue);
+  // Resume receive process, if possible
+  CDC_resume_receive();
+  return ch;
 }
 
-int USBSerial::available(void) {
-  return ((APP_RX_DATA_SIZE + (UserRxBufPtrIn - UserRxBufPtrOut)) % APP_RX_DATA_SIZE);
-}
-
-int USBSerial::read(void) {
-  if (UserRxBufPtrOut == UserRxBufPtrIn) {
-    return -1;
-  } else {
-    unsigned char c = UserRxBuffer[UserRxBufPtrOut];
-    UserRxBufPtrOut = ((UserRxBufPtrOut + 1) % APP_RX_DATA_SIZE);
+size_t USBSerial::readBytes(char *buffer, size_t length)
+{
+  uint16_t read;
+  auto rest = static_cast<uint16_t>(length);
+  _startMillis = millis();
+  do {
+    read = CDC_ReceiveQueue_Read(&ReceiveQueue, reinterpret_cast<uint8_t *>(buffer), rest);
     CDC_resume_receive();
-    return c;
-  }
+    rest -= read;
+    buffer += read;
+    if (rest == 0) {
+      return length;
+    }
+  } while (millis() - _startMillis < _timeout);
+  return length - rest;
+}
+
+size_t USBSerial::readBytesUntil(char terminator, char *buffer, size_t length)
+{
+  uint16_t read;
+  auto rest = static_cast<uint16_t>(length);
+  _startMillis = millis();
+  do {
+    bool found = CDC_ReceiveQueue_ReadUntil(&ReceiveQueue, static_cast<uint8_t>(terminator),
+                                            reinterpret_cast<uint8_t *>(buffer), rest, &read);
+    CDC_resume_receive();
+    rest -= read;
+    buffer += read;
+    if (found) {
+      return length - rest;
+    }
+    if (rest == 0) {
+      return length;
+    }
+  } while (millis() - _startMillis < _timeout);
+  return length - rest;
 }
 
 int USBSerial::peek(void)
 {
-  if (UserRxBufPtrOut == UserRxBufPtrIn) {
-    return -1;
-  } else {
-    unsigned char c = UserRxBuffer[UserRxBufPtrOut];
-    return c;
-  }
+  // Peek one symbol, it can't change receive avaiablity
+  return CDC_ReceiveQueue_Peek(&ReceiveQueue);
 }
 
 void USBSerial::flush(void)
 {
-  /* UserTxBufPtrOut can be modified by TIM ISR, so in order to be sure that the */
-  /* value that we read is correct, we need to disable TIM Interrupt.            */
-  CDC_disable_TIM_Interrupt();
-  CDC_flush();
-  CDC_enable_TIM_Interrupt();
+  // Wait for TransmitQueue read size becomes zero
+  // TS: safe, because it not be stopped while receive 0
+  while (CDC_TransmitQueue_ReadSize(&TransmitQueue) > 0) {}
 }
 
-uint8_t USBSerial::pending(void) {
-  return 0;
-}
-
-uint8_t USBSerial::isConnected(void) {
-
-  if (device_connection_status == 1) {
-    return 1;
-  } else {
-    return 0;
-  }
-}
-
-uint32_t USBSerial::baud() {
+uint32_t USBSerial::baud()
+{
   return 115200;
 }
 
-uint8_t USBSerial::stopbits() {
+uint8_t USBSerial::stopbits()
+{
   return ONE_STOP_BIT;
 }
 
-uint8_t USBSerial::paritytype() {
+uint8_t USBSerial::paritytype()
+{
   return NO_PARITY;
 }
 
-uint8_t USBSerial::numbits() {
+uint8_t USBSerial::numbits()
+{
   return 8;
 }
 
-bool USBSerial::dtr(void) {
+bool USBSerial::dtr(void)
+{
   return false;
 }
 
-bool USBSerial::rts(void) {
+bool USBSerial::rts(void)
+{
   return false;
 }
 
-USBSerial::operator bool() {
+USBSerial::operator bool()
+{
   bool result = false;
-  if (lineState == 1)
+  if (lineState == 1) {
     result = true;
+  }
   delay(10);
- return result;
+  return result;
 }
 
 #endif // USBCON && USBD_USE_CDC

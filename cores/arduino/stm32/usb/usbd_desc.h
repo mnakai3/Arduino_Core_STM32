@@ -12,7 +12,7 @@
   * This software component is licensed by ST under Ultimate Liberty license
   * SLA0044, the "License"; You may not use this file except in compliance with
   * the License. You may obtain a copy of the License at:
-  *                      http://www.st.com/SLA0044
+  *                      www.st.com/SLA0044
   *
   ******************************************************************************
   */
@@ -34,12 +34,8 @@
 
 /* Exported macro ------------------------------------------------------------*/
 /* Exported functions ------------------------------------------------------- */
-#ifdef USBD_USE_HID_COMPOSITE
-extern USBD_DescriptorsTypeDef HID_Desc;
-#endif
-#ifdef USBD_USE_CDC
-extern USBD_DescriptorsTypeDef CDC_Desc;
-#endif
+extern USBD_DescriptorsTypeDef USBD_Desc;
+
 #endif /* USBCON */
 #endif /* __USBD_DESC_H*/
 

@@ -186,6 +186,7 @@ HAL_StatusTypeDef HAL_FLASH_Program(uint32_t TypeProgram, uint32_t FlashAddress,
     }
 
     __ISB();
+    __DSB();
 
     /* Program the 256 bits flash word */
     do
@@ -196,6 +197,7 @@ HAL_StatusTypeDef HAL_FLASH_Program(uint32_t TypeProgram, uint32_t FlashAddress,
       row_index--;
     } while (row_index != 0U);
 
+    __ISB();
     __DSB();
 
     /* Wait for last operation to be completed */
@@ -203,7 +205,7 @@ HAL_StatusTypeDef HAL_FLASH_Program(uint32_t TypeProgram, uint32_t FlashAddress,
 
     if(bank == FLASH_BANK_1)
     {
-      /* If the program operation is completed, disable the PG*/
+      /* If the program operation is completed, disable the PG */
       CLEAR_BIT(FLASH->CR1, FLASH_CR_PG);
     }
     else
@@ -265,22 +267,13 @@ HAL_StatusTypeDef HAL_FLASH_Program_IT(uint32_t TypeProgram, uint32_t FlashAddre
   }
   else
   {
-    /* Set internal variables used by the IRQ handler */
-    if(IS_FLASH_PROGRAM_ADDRESS_BANK1(FlashAddress))
-    {
-      bank = FLASH_BANK_1;
-      pFlash.ProcedureOnGoing = FLASH_PROC_PROGRAM_BANK1;
-    }
-    else
-    {
-      bank = FLASH_BANK_2;
-      pFlash.ProcedureOnGoing = FLASH_PROC_PROGRAM_BANK2;
-    }
-
     pFlash.Address = FlashAddress;
 
     if(bank == FLASH_BANK_1)
     {
+      /* Set internal variables used by the IRQ handler */
+      pFlash.ProcedureOnGoing = FLASH_PROC_PROGRAM_BANK1;
+
       /* Set PG bit */
       SET_BIT(FLASH->CR1, FLASH_CR_PG);
 
@@ -290,15 +283,19 @@ HAL_StatusTypeDef HAL_FLASH_Program_IT(uint32_t TypeProgram, uint32_t FlashAddre
     }
     else
     {
+      /* Set internal variables used by the IRQ handler */
+      pFlash.ProcedureOnGoing = FLASH_PROC_PROGRAM_BANK2;
+
       /* Set PG bit */
       SET_BIT(FLASH->CR2, FLASH_CR_PG);
 
-      /* Enable End of Operation and Error interrupts for Bank2*/
+      /* Enable End of Operation and Error interrupts for Bank2 */
       __HAL_FLASH_ENABLE_IT_BANK2(FLASH_IT_EOP_BANK2     | FLASH_IT_WRPERR_BANK2 | FLASH_IT_PGSERR_BANK2 | \
                                   FLASH_IT_STRBERR_BANK2 | FLASH_IT_INCERR_BANK2 | FLASH_IT_OPERR_BANK2);
     }
 
     __ISB();
+    __DSB();
 
     /* Program the 256 bits flash word */
     do
@@ -309,6 +306,7 @@ HAL_StatusTypeDef HAL_FLASH_Program_IT(uint32_t TypeProgram, uint32_t FlashAddre
       row_index--;
     } while (row_index != 0U);
 
+    __ISB();
     __DSB();
   }
 
@@ -330,10 +328,10 @@ void HAL_FLASH_IRQHandler(void)
   {
     if(pFlash.ProcedureOnGoing == FLASH_PROC_SECTERASE_BANK1)
     {
-      /*Nb of sector to erased can be decreased*/
+      /* Nb of sector to erased can be decreased */
       pFlash.NbSectorsToErase--;
 
-      /* Check if there are still sectors to erase*/
+      /* Check if there are still sectors to erase */
       if(pFlash.NbSectorsToErase != 0U)
       {
         /* Indicate user which sector has been erased */
@@ -342,7 +340,7 @@ void HAL_FLASH_IRQHandler(void)
         /* Clear bank 1 End of Operation pending bit */
         __HAL_FLASH_CLEAR_FLAG_BANK1(FLASH_FLAG_EOP_BANK1);
 
-        /*Increment sector number*/
+        /* Increment sector number */
         pFlash.Sector++;
         temp = pFlash.Sector;
         FLASH_Erase_Sector(temp, FLASH_BANK_1, pFlash.VoltageForErase);
@@ -464,6 +462,7 @@ void HAL_FLASH_IRQHandler(void)
   /* Check FLASH Bank1 operation error flags */
   errorflag = FLASH->SR1 & (FLASH_FLAG_WRPERR_BANK1 | FLASH_FLAG_PGSERR_BANK1 | FLASH_FLAG_STRBERR_BANK1 | \
                             FLASH_FLAG_INCERR_BANK1 | FLASH_FLAG_OPERR_BANK1);
+
   if(errorflag != 0U)
   {
     /* Save the error code */
@@ -558,7 +557,7 @@ void HAL_FLASH_IRQHandler(void)
   *                  Mass Erase: Bank number which has been requested to erase
   *                  Sectors Erase: Sector which has been erased
   *                    (if 0xFFFFFFFF, it means that all the selected sectors have been erased)
-  *                  Program Address which was selected for data program
+  *                  Program: Address which was selected for data program
   * @retval None
   */
 __weak void HAL_FLASH_EndOfOperationCallback(uint32_t ReturnValue)

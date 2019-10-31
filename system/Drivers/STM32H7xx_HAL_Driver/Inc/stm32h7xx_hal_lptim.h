@@ -13,7 +13,8 @@
   * the "License"; You may not use this file except in compliance with the
   * License. You may obtain a copy of the License at:
   *                        opensource.org/licenses/BSD-3-Clause
-  *  ******************************************************************************
+  *
+  ******************************************************************************
   */
 
 /* Define to prevent recursive inclusion -------------------------------------*/
@@ -130,7 +131,7 @@ typedef enum
   HAL_LPTIM_STATE_READY            = 0x01U,    /*!< Peripheral Initialized and ready for use    */
   HAL_LPTIM_STATE_BUSY             = 0x02U,    /*!< An internal process is ongoing              */
   HAL_LPTIM_STATE_TIMEOUT          = 0x03U,    /*!< Timeout state                               */
-  HAL_LPTIM_STATE_ERROR            = 0x04U     /*!< Internal Process is ongoing                */
+  HAL_LPTIM_STATE_ERROR            = 0x04U     /*!< Internal Process is ongoing                 */
 } HAL_LPTIM_StateTypeDef;
 
 /**
@@ -352,7 +353,6 @@ typedef  void (*pLPTIM_CallbackTypeDef)(LPTIM_HandleTypeDef *hlptim);  /*!< poin
 /** @defgroup LPTIM_Interrupts_Definition LPTIM Interrupts Definition
   * @{
   */
-
 #define LPTIM_IT_DOWN                            LPTIM_IER_DOWNIE
 #define LPTIM_IT_UP                              LPTIM_IER_UPIE
 #define LPTIM_IT_ARROK                           LPTIM_IER_ARROKIE
@@ -400,6 +400,8 @@ typedef  void (*pLPTIM_CallbackTypeDef)(LPTIM_HandleTypeDef *hlptim);  /*!< poin
   * @note   The following sequence is required to solve LPTIM disable HW limitation.
   *         Please check Errata Sheet ES0335 for more details under "MCU may remain
   *         stuck in LPTIM interrupt when entering Stop mode" section.
+  * @note   Please call @ref HAL_LPTIM_GetState() after a call to __HAL_LPTIM_DISABLE to
+  *         check for TIMEOUT.
   * @retval None
   */
 #define __HAL_LPTIM_DISABLE(__HANDLE__)   LPTIM_Disable(__HANDLE__)
@@ -436,6 +438,7 @@ typedef  void (*pLPTIM_CallbackTypeDef)(LPTIM_HandleTypeDef *hlptim);  /*!< poin
   * @param  __HANDLE__ LPTIM handle
   * @param  __VALUE__ Autoreload value
   * @retval None
+  * @note   The ARR register can only be modified when the LPTIM instance is enabled.
   */
 #define __HAL_LPTIM_AUTORELOAD_SET(__HANDLE__ , __VALUE__)  ((__HANDLE__)->Instance->ARR =  (__VALUE__))
 
@@ -444,6 +447,7 @@ typedef  void (*pLPTIM_CallbackTypeDef)(LPTIM_HandleTypeDef *hlptim);  /*!< poin
   * @param  __HANDLE__ LPTIM handle
   * @param  __VALUE__ Compare value
   * @retval None
+  * @note   The CMP register can only be modified when the LPTIM instance is enabled.
   */
 #define __HAL_LPTIM_COMPARE_SET(__HANDLE__ , __VALUE__)     ((__HANDLE__)->Instance->CMP =  (__VALUE__))
 
@@ -492,6 +496,7 @@ typedef  void (*pLPTIM_CallbackTypeDef)(LPTIM_HandleTypeDef *hlptim);  /*!< poin
   *            @arg LPTIM_IT_ARRM    : Autoreload match Interrupt.
   *            @arg LPTIM_IT_CMPM    : Compare match Interrupt.
   * @retval None.
+  * @note   The LPTIM interrupts can only be enabled when the LPTIM instance is disabled.
   */
 #define __HAL_LPTIM_ENABLE_IT(__HANDLE__, __INTERRUPT__)    ((__HANDLE__)->Instance->IER  |= (__INTERRUPT__))
 
@@ -508,6 +513,7 @@ typedef  void (*pLPTIM_CallbackTypeDef)(LPTIM_HandleTypeDef *hlptim);  /*!< poin
   *            @arg LPTIM_IT_ARRM    : Autoreload match Interrupt.
   *            @arg LPTIM_IT_CMPM    : Compare match Interrupt.
   * @retval None.
+  * @note   The LPTIM interrupts can only be disabled when the LPTIM instance is disabled.
   */
 #define __HAL_LPTIM_DISABLE_IT(__HANDLE__, __INTERRUPT__)   ((__HANDLE__)->Instance->IER  &= (~(__INTERRUPT__)))
 
@@ -746,7 +752,7 @@ HAL_LPTIM_StateTypeDef HAL_LPTIM_GetState(LPTIM_HandleTypeDef *hlptim);
 /** @defgroup LPTIM_Private_Functions LPTIM Private Functions
   * @{
   */
-void LPTIM_Disable(LPTIM_HandleTypeDef *lptim);
+void LPTIM_Disable(LPTIM_HandleTypeDef *hlptim);
 /**
   * @}
   */

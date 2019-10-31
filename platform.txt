@@ -17,7 +17,7 @@ compiler.warning_flags.default=
 compiler.warning_flags.more=-Wall
 compiler.warning_flags.all=-Wall -Wextra
 
-compiler.path={runtime.tools.arm-none-eabi-gcc-6-2017-q2-update.path}/bin/
+compiler.path={runtime.tools.arm-none-eabi-gcc-8.2.1-1.7.path}/bin/
 
 compiler.S.cmd=arm-none-eabi-gcc
 compiler.c.cmd=arm-none-eabi-gcc
@@ -27,17 +27,17 @@ compiler.c.elf.cmd=arm-none-eabi-gcc
 compiler.objcopy.cmd=arm-none-eabi-objcopy
 compiler.elf2hex.cmd=arm-none-eabi-objcopy
 
-compiler.extra_flags=-mcpu={build.mcu} -mthumb "@{build.opt.path}"
+compiler.extra_flags=-mcpu={build.mcu} {build.flags.fp} -mthumb "@{build.opt.path}"
 
 compiler.S.flags={compiler.extra_flags} -c -x assembler-with-cpp {compiler.stm.extra_include}
 
 compiler.c.flags={compiler.extra_flags} -c {build.flags.optimize} {compiler.warning_flags} -std=gnu11 -ffunction-sections -fdata-sections -nostdlib --param max-inline-insns-single=500 -MMD {compiler.stm.extra_include}
 
-compiler.cpp.flags={compiler.extra_flags} -c {build.flags.optimize} {compiler.warning_flags} -std={compiler.cpp.std} -ffunction-sections -fdata-sections -nostdlib -fno-threadsafe-statics --param max-inline-insns-single=500 -fno-rtti -fno-exceptions -MMD {compiler.stm.extra_include}
+compiler.cpp.flags={compiler.extra_flags} -c {build.flags.optimize} {compiler.warning_flags} -std={compiler.cpp.std} -ffunction-sections -fdata-sections -nostdlib -fno-threadsafe-statics --param max-inline-insns-single=500 -fno-rtti -fno-exceptions -fno-use-cxa-atexit -MMD {compiler.stm.extra_include}
 
 compiler.ar.flags=rcs
 
-compiler.c.elf.flags=-mcpu={build.mcu} -mthumb {build.flags.optimize} {build.flags.ldspecs} -Wl,--cref -Wl,--check-sections -Wl,--gc-sections -Wl,--entry=Reset_Handler -Wl,--unresolved-symbols=report-all -Wl,--warn-common -Wl,--warn-section-align
+compiler.c.elf.flags=-mcpu={build.mcu} {build.flags.fp} -mthumb {build.flags.optimize} {build.flags.ldspecs} -Wl,--defsym=LD_FLASH_OFFSET={build.flash_offset} -Wl,--defsym=LD_MAX_SIZE={upload.maximum_size} -Wl,--defsym=LD_MAX_DATA_SIZE={upload.maximum_data_size} -Wl,--cref -Wl,--check-sections -Wl,--gc-sections -Wl,--entry=Reset_Handler -Wl,--unresolved-symbols=report-all -Wl,--warn-common
 
 compiler.objcopy.eep.flags=-O ihex -j .eeprom --set-section-flags=.eeprom=alloc,load --no-change-warnings --change-section-lma .eeprom=0
 
@@ -50,6 +50,7 @@ compiler.define=-DARDUINO=
 
 # These can be overriden in boards.txt
 build.extra_flags=
+build.bootloader_flags=
 build.ldscript=ldscript.ld
 
 # These can be overridden in platform.local.txt
@@ -62,12 +63,12 @@ compiler.ar.extra_flags=
 compiler.elf2bin.extra_flags=
 compiler.elf2hex.extra_flags=
 
-compiler.arm.cmsis.c.flags="-I{runtime.tools.CMSIS-5.3.0.path}/CMSIS/Core/Include/" "-I{build.system.path}/Drivers/CMSIS/Device/ST/{build.series}/Include/" "-I{build.system.path}/Drivers/CMSIS/Device/ST/{build.series}/Source/Templates/gcc/"
-compiler.arm.cmsis.ldflags="-L{runtime.tools.CMSIS-5.3.0.path}/CMSIS/Lib/GCC/" -l{build.cmsis_lib_gcc}
+compiler.arm.cmsis.c.flags="-I{runtime.tools.CMSIS-5.5.1.path}/CMSIS/Core/Include/" "-I{build.system.path}/Drivers/CMSIS/Device/ST/{build.series}/Include/" "-I{build.system.path}/Drivers/CMSIS/Device/ST/{build.series}/Source/Templates/gcc/"
+compiler.arm.cmsis.ldflags="-L{runtime.tools.CMSIS-5.5.1.path}/CMSIS/DSP/Lib/GCC/" -l{build.cmsis_lib_gcc}
 
 # USB Flags
 # ---------
-build.usb_flags=-DUSBCON -DUSBD_VID={build.vid} '-DUSB_MANUFACTURER={build.usb_manufacturer}' '-DUSB_PRODUCT="{build.board}"' -DHAL_PCD_MODULE_ENABLED 
+build.usb_flags=-DUSBCON {build.usb_speed} -DUSBD_VID={build.vid} '-DUSB_MANUFACTURER={build.usb_manufacturer}' '-DUSB_PRODUCT="{build.board}"' -DHAL_PCD_MODULE_ENABLED 
 
 # Default usb manufacturer will be replaced at compile time using
 # numeric vendor ID if available or by board's specific value.
@@ -79,9 +80,12 @@ build.info.flags=-D{build.series} -DARDUINO={runtime.ide.version} -DARDUINO_{bui
 # Defaults config
 build.xSerial=-DHAL_UART_MODULE_ENABLED
 build.enable_usb=
+build.usb_speed=
 build.startup_file=
+build.flags.fp=
 build.flags.optimize=-Os
 build.flags.ldspecs=--specs=nano.specs -u _printf_float -u _scanf_float
+build.flash_offset=0
 
 # Pre and post build hooks
 build.opt.name=build_opt.h
@@ -92,12 +96,6 @@ build.opt.path={build.path}/sketch/{build.opt.name}
 recipe.hooks.prebuild.1.pattern.windows=cmd /c if not exist "{build.opt.sourcepath}" mkdir "{build.path}\sketch" & type NUL > "{build.opt.path}"
 recipe.hooks.prebuild.1.pattern.linux=bash -c "[ -f {build.opt.sourcepath} ] || (mkdir -p {build.path}/sketch && touch {build.opt.path})"
 recipe.hooks.prebuild.1.pattern.macosx=bash -c "[ -f {build.opt.sourcepath} ] || (mkdir -p {build.path}/sketch && touch {build.opt.path})"
-
-# preprocess linker file
-preprocld.name=preproc.ld
-preprocld.filepath={build.path}/{preprocld.name}
-preprocld.flags=-DLD_MAX_SIZE={upload.maximum_size} -DLD_MAX_DATA_SIZE={upload.maximum_data_size}
-recipe.hooks.linking.prelink.1.pattern="{compiler.path}{compiler.c.cmd}" -x c -E -P {preprocld.flags} {compiler.c.flags} {build.info.flags} {compiler.c.extra_flags} {build.extra_flags} {compiler.arm.cmsis.c.flags} "{build.variant.path}/{build.ldscript}" -o "{preprocld.filepath}"
 
 # compile patterns
 # ---------------------
@@ -115,7 +113,7 @@ recipe.S.o.pattern="{compiler.path}{compiler.S.cmd}" {compiler.S.flags} {build.i
 recipe.ar.pattern="{compiler.path}{compiler.ar.cmd}" {compiler.ar.flags} {compiler.ar.extra_flags} "{archive_file_path}" "{object_file}"
 
 ## Combine gc-sections, archives, and objects
-recipe.c.combine.pattern="{compiler.path}{compiler.c.elf.cmd}" {compiler.c.elf.flags} "-T{preprocld.filepath}" "-Wl,-Map,{build.path}/{build.project_name}.map" {compiler.c.elf.extra_flags} {compiler.ldflags} {compiler.arm.cmsis.ldflags} -o "{build.path}/{build.project_name}.elf" "-L{build.path}" -Wl,--start-group {object_files} -Wl,--whole-archive "{archive_file_path}" -Wl,--no-whole-archive -lc -Wl,--end-group -lm -lgcc -lstdc++
+recipe.c.combine.pattern="{compiler.path}{compiler.c.elf.cmd}" {compiler.c.elf.flags} "-T{build.variant.path}/{build.ldscript}" "-Wl,-Map,{build.path}/{build.project_name}.map" {compiler.c.elf.extra_flags} {compiler.ldflags} {compiler.arm.cmsis.ldflags} -o "{build.path}/{build.project_name}.elf" "-L{build.path}" -Wl,--start-group {object_files} -Wl,--whole-archive "{archive_file_path}" -Wl,--no-whole-archive -lc -Wl,--end-group -lm -lgcc -lstdc++
 
 ## Create output (.bin file)
 recipe.objcopy.bin.pattern="{compiler.path}{compiler.objcopy.cmd}" {compiler.elf2bin.flags} {compiler.elf2bin.extra_flags} "{build.path}/{build.project_name}.elf" "{build.path}/{build.project_name}.bin"
@@ -145,49 +143,24 @@ recipe.size.regex.eeprom=^(?:\.eeprom)\s+([0-9]+).*
 tools.massStorageCopy.cmd=massStorageCopy
 tools.massStorageCopy.cmd.windows=massStorageCopy.bat
 tools.massStorageCopy.cmd.macosx=massStorageCopyMacOsX
-tools.massStorageCopy.path={runtime.hardware.path}/tools/win
-tools.massStorageCopy.path.macosx={runtime.hardware.path}/tools/macosx
-tools.massStorageCopy.path.linux={runtime.hardware.path}/tools/linux
-tools.massStorageCopy.path.linux64={runtime.hardware.path}/tools/linux
+tools.massStorageCopy.path={runtime.tools.STM32Tools.path}/tools/win
+tools.massStorageCopy.path.macosx={runtime.tools.STM32Tools.path}/tools/macosx
+tools.massStorageCopy.path.linux={runtime.tools.STM32Tools.path}/tools/linux
+tools.massStorageCopy.path.linux64={runtime.tools.STM32Tools.path}/tools/linux
 tools.massStorageCopy.upload.params.verbose=
 tools.massStorageCopy.upload.params.quiet=
 tools.massStorageCopy.upload.pattern="{path}/{cmd}" {upload.verbose} -I "{build.path}/{build.project_name}.bin" -O "{node}"
 
-# ST-Link upload
-tools.stlink_upload.cmd=stlink_upload
-tools.stlink_upload.cmd.windows=stlink_upload.bat
-tools.stlink_upload.path.windows={runtime.hardware.path}/tools/win
-tools.stlink_upload.path.macosx={runtime.hardware.path}/tools/macosx
-tools.stlink_upload.path.linux={runtime.hardware.path}/tools/linux
-tools.stlink_upload.path.linux64={runtime.hardware.path}/tools/linux64
-tools.stlink_upload.upload.params.verbose=-d
-tools.stlink_upload.upload.params.quiet=
-tools.stlink_upload.upload.pattern="{path}/{cmd}" {serial.port.file} {upload.altID} {upload.usbID} "{build.path}/{build.project_name}.bin"
-
-# OpenOCD upload
-tools.openocd.path.windows={runtime.tools.openocd.path}
-tools.openocd.path.macosx={runtime.tools.openocd.path}/macosx
-tools.openocd.path.linux={runtime.tools.openocd.path}/linux
-tools.openocd.cmd.macosx=bin/openocd
-tools.openocd.cmd.linux=bin/openocd
-tools.openocd.cmd.windows=bin/openocd.exe
-tools.openocd.upload.params.verbose=-d2
-tools.openocd.upload.params.quiet=-d0
-tools.openocd.upload.pattern="{path}/{cmd}" -f "{path}/scripts/interface/cmsis-dap.cfg" -c 'transport select swd' -f "{path}/scripts/target/stm32f4x.cfg" -c "program {{{build.path}/{build.project_name}.bin}} verify reset 0x08000000; shutdown"
-
-# Serial upload for generic STM32
-# Note: Boot0 line needs to be high on board reset to enable it
-# at the end up the upload the program is automatically run, without the board being reset
-tools.serial_upload.cmd=serial_upload
-tools.serial_upload.cmd.windows=serial_upload.bat
-tools.serial_upload.cmd.macosx=serial_upload
-tools.serial_upload.path={runtime.hardware.path}/tools/win
-tools.serial_upload.path.macosx={runtime.hardware.path}/tools/macosx
-tools.serial_upload.path.linux={runtime.hardware.path}/tools/linux
-tools.serial_upload.path.linux64={runtime.hardware.path}/tools/linux64
-tools.serial_upload.upload.params.verbose=-d
-tools.serial_upload.upload.params.quiet=n
-tools.serial_upload.upload.pattern="{path}/{cmd}" {serial.port.file} {upload.altID} {upload.usbID} "{build.path}/{build.project_name}.bin"
+# STM32CubeProgrammer upload
+tools.stm32CubeProg.cmd=stm32CubeProg.sh
+tools.stm32CubeProg.cmd.macosx=stm32CubeProg
+tools.stm32CubeProg.cmd.windows=stm32CubeProg.bat
+tools.stm32CubeProg.path.linux={runtime.tools.STM32Tools.path}/tools/linux
+tools.stm32CubeProg.path.macosx={runtime.tools.STM32Tools.path}/tools/macosx
+tools.stm32CubeProg.path.windows={runtime.tools.STM32Tools.path}/tools/win
+tools.stm32CubeProg.upload.params.verbose=
+tools.stm32CubeProg.upload.params.quiet=
+tools.stm32CubeProg.upload.pattern="{path}/{cmd}" {upload.protocol} "{build.path}/{build.project_name}.bin" {upload.options}
 
 # blackmagic upload for generic STM32
 tools.bmp_upload.cmd=arm-none-eabi-gdb
@@ -196,6 +169,27 @@ tools.bmp_upload.upload.speed=230400
 tools.bmp_upload.upload.params.verbose=-batch
 tools.bmp_upload.upload.params.quiet=--batch-silent
 tools.bmp_upload.upload.pattern="{path}{cmd}" -nx -b {upload.speed} {upload.verbose} -ex "set confirm off" -ex "target extended-remote {serial.port}" -ex "monitor swdp_scan" -ex "attach 1" -ex "load" -ex "compare-sections" -ex "kill" "{build.path}/{build.project_name}.elf"
+
+# HID flash 2.2 (HID bootloader v2.2 for STM32F1 and STM32F4 series)
+tools.hid_upload.cmd=hid-flash
+tools.hid_upload.cmd.windows=hid-flash.exe
+tools.hid_upload.path={runtime.tools.STM32Tools.path}/tools/win
+tools.hid_upload.path.macosx={runtime.tools.STM32Tools.path}/tools/macosx
+tools.hid_upload.path.linux={runtime.tools.STM32Tools.path}/tools/linux
+tools.hid_upload.upload.params.verbose=-d
+tools.hid_upload.upload.params.quiet=n
+tools.hid_upload.upload.pattern="{path}/{cmd}" "{build.path}/{build.project_name}.bin" {serial.port.file}                                                                                                                             
+
+# Upload using Maple bootloader over DFU
+tools.maple_upload.cmd=maple_upload
+tools.maple_upload.cmd.windows=maple_upload.bat
+tools.maple_upload.path={runtime.tools.STM32Tools.path}/tools/win
+tools.maple_upload.path.macosx={runtime.tools.STM32Tools.path}/tools/macosx
+tools.maple_upload.path.linux={runtime.tools.STM32Tools.path}/tools/linux
+tools.maple_upload.path.linux64={runtime.tools.STM32Tools.path}/tools/linux64
+tools.maple_upload.upload.params.verbose=-d
+tools.maple_upload.upload.params.quiet=n
+tools.maple_upload.upload.pattern="{path}/{cmd}" {serial.port.file} {upload.altID} {upload.usbID} "{build.path}/{build.project_name}.bin"
 
 # stm32flash
 tools.stm32flash.cmd=stm32flash
@@ -211,3 +205,13 @@ tools.stm32flash.upload.params.verbose=-d
 tools.stm32flash.upload.params.quiet=
 tools.stm32flash.upload.pattern="{path}/{cmd}" {upload.altID} {upload.usbID} "{build.path}/{build.project_name}.bin" {upload.dfuse_addr}
 
+# OpenOCD upload
+tools.openocd.path.windows={runtime.tools.openocd.path}
+tools.openocd.path.macosx={runtime.tools.openocd.path}/macosx
+tools.openocd.path.linux={runtime.tools.openocd.path}/linux
+tools.openocd.cmd.macosx=bin/openocd
+tools.openocd.cmd.linux=bin/openocd
+tools.openocd.cmd.windows=bin/openocd.exe
+tools.openocd.upload.params.verbose=-d2
+tools.openocd.upload.params.quiet=-d0
+tools.openocd.upload.pattern="{path}/{cmd}" -f "{path}/scripts/interface/cmsis-dap.cfg" -c 'transport select swd' -f "{path}/scripts/target/stm32f4x.cfg" -c "program {{{build.path}/{build.project_name}.bin}} verify reset 0x08000000; shutdown"

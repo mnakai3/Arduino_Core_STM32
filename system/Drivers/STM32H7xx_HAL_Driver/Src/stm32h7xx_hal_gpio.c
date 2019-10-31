@@ -131,6 +131,10 @@
 #define FALLING_EDGE          (0x00200000U)
 #define GPIO_OUTPUT_TYPE      (0x00000010U)
 
+#if defined(DUAL_CORE)
+#define EXTI_CPU1             (0x01000000U)
+#define EXTI_CPU2             (0x02000000U)
+#endif /*DUAL_CORE*/
 #define GPIO_NUMBER           (16U)
 /**
   * @}
@@ -173,7 +177,11 @@ void HAL_GPIO_Init(GPIO_TypeDef  *GPIOx, GPIO_InitTypeDef *GPIO_Init)
   uint32_t temp;
   EXTI_Core_TypeDef *EXTI_CurrentCPU;
 
+#if defined(DUAL_CORE) && defined(CORE_CM4)
+  EXTI_CurrentCPU = EXTI_D2; /* EXTI for CM4 CPU */
+#else
   EXTI_CurrentCPU = EXTI_D1; /* EXTI for CM7 CPU */
+#endif
 
   /* Check the parameters */
   assert_param(IS_GPIO_ALL_INSTANCE(GPIOx));
@@ -301,7 +309,11 @@ void HAL_GPIO_DeInit(GPIO_TypeDef  *GPIOx, uint32_t GPIO_Pin)
   uint32_t tmp;
   EXTI_Core_TypeDef *EXTI_CurrentCPU;
 
+#if defined(DUAL_CORE) && defined(CORE_CM4)
+  EXTI_CurrentCPU = EXTI_D2; /* EXTI for CM4 CPU */
+#else
   EXTI_CurrentCPU = EXTI_D1; /* EXTI for CM7 CPU */
+#endif
 
   /* Check the parameters */
   assert_param(IS_GPIO_ALL_INSTANCE(GPIOx));
@@ -318,10 +330,10 @@ void HAL_GPIO_DeInit(GPIO_TypeDef  *GPIOx, uint32_t GPIO_Pin)
       /*------------------------- EXTI Mode Configuration --------------------*/
       /* Clear the External Interrupt or Event for the current IO */
       tmp = SYSCFG->EXTICR[position >> 2U];
-      tmp &= (0x0FUL << (8U * (position & 0x03U)));
-      if (tmp == (GPIO_GET_INDEX(GPIOx) << (8U * (position & 0x03U))))
+      tmp &= (0x0FUL << (4U * (position & 0x03U)));
+      if (tmp == (GPIO_GET_INDEX(GPIOx) << (4U * (position & 0x03U))))
       {
-        tmp = 0x0FUL << (8U * (position & 0x03U));
+        tmp = 0x0FUL << (4U * (position & 0x03U));
         SYSCFG->EXTICR[position >> 2U] &= ~tmp;
 
         /* Clear EXTI line configuration for Current CPU */
@@ -475,9 +487,10 @@ HAL_StatusTypeDef HAL_GPIO_LockPin(GPIO_TypeDef *GPIOx, uint16_t GPIO_Pin)
   GPIOx->LCKR = GPIO_Pin;
   /* Set LCKx bit(s): LCKK='1' + LCK[15-0] */
   GPIOx->LCKR = tmp;
-  /* Read LCKK bit*/
+  /* Read LCKK register. This read is mandatory to complete key lock sequence*/
   tmp = GPIOx->LCKR;
 
+  /* read again in order to confirm lock is active */
   if ((GPIOx->LCKR & GPIO_LCKR_LCKK) != 0x00U)
   {
     return HAL_OK;
@@ -495,12 +508,20 @@ HAL_StatusTypeDef HAL_GPIO_LockPin(GPIO_TypeDef *GPIOx, uint16_t GPIO_Pin)
   */
 void HAL_GPIO_EXTI_IRQHandler(uint16_t GPIO_Pin)
 {
+#if defined(DUAL_CORE) && defined(CORE_CM4)
+  if (__HAL_GPIO_EXTID2_GET_IT(GPIO_Pin) != 0x00U)
+  {
+    __HAL_GPIO_EXTID2_CLEAR_IT(GPIO_Pin);
+    HAL_GPIO_EXTI_Callback(GPIO_Pin);
+  }
+#else
   /* EXTI line interrupt detected */
   if (__HAL_GPIO_EXTI_GET_IT(GPIO_Pin) != 0x00U)
   {
     __HAL_GPIO_EXTI_CLEAR_IT(GPIO_Pin);
     HAL_GPIO_EXTI_Callback(GPIO_Pin);
   }
+#endif
 }
 
 /**

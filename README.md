@@ -1,6 +1,7 @@
 # Arduino core support for STM32 based boards
 [![GitHub release](https://img.shields.io/github/release/stm32duino/Arduino_Core_STM32.svg)](https://github.com/stm32duino/Arduino_Core_STM32/releases/latest)
-[![GitHub commits](https://img.shields.io/github/commits-since/stm32duino/Arduino_Core_STM32/1.4.0.svg)](https://github.com/stm32duino/Arduino_Core_STM32/compare/1.4.0...master)
+![GitHub All Releases](https://img.shields.io/github/downloads/stm32duino/Arduino_Core_STM32/total.svg?label=downloads%20since%201.4.0)
+[![GitHub commits](https://img.shields.io/github/commits-since/stm32duino/Arduino_Core_STM32/1.7.0.svg)](https://github.com/stm32duino/Arduino_Core_STM32/compare/1.7.0...master)
 [![Build Status](https://travis-ci.com/stm32duino/Arduino_Core_STM32.svg?branch=master)](https://travis-ci.com/stm32duino/Arduino_Core_STM32)
 
 * [Introduction](https://github.com/stm32duino/Arduino_Core_STM32#Introduction)<br>
@@ -39,83 +40,125 @@ User can add a STM32 based board following this [wiki](https://github.com/stm32d
 
 ## Boards available
 
-  * STM32F0
-    * [Nucleo F030R8](http://www.st.com/en/evaluation-tools/nucleo-f030r8.html)
-    * [Nucleo F091RC](http://www.st.com/en/evaluation-tools/nucleo-f091rc.html)
-    * [32F0308DISCOVERY](http://www.st.com/en/evaluation-tools/32f0308discovery.html)
+| Status | [Nucleo 144](https://www.st.com/content/st_com/en/products/evaluation-tools/product-evaluation-tools/mcu-eval-tools/stm32-mcu-eval-tools/stm32-nucleo-boards.html) | Release | Comment |
+| :---: | --- | :---: | :--- |
+| :green_heart: | [Nucleo F207ZG](http://www.st.com/en/evaluation-tools/nucleo-f207zg.html) | *0.2.0* |  |
+| :green_heart: | [Nucleo F429ZI](http://www.st.com/en/evaluation-tools/nucleo-f429zi.html) | *0.1.0* |  |
+| :green_heart: | [Nucleo F767ZI](http://www.st.com/en/evaluation-tools/nucleo-f767zi.html) | *1.4.0* |  |
+| :green_heart: | [Nucleo L496ZG](http://www.st.com/en/evaluation-tools/nucleo-l496zg.html) | *1.3.0* |  |
+| :green_heart: | [Nucleo L496ZG-P](http://www.st.com/en/evaluation-tools/nucleo-l496zg-p.html) | *1.3.0* |  |
+| :green_heart: | [Nucleo L4R5ZI](http://www.st.com/en/evaluation-tools/nucleo-l4r5zi.html) | *1.4.0* |  |
+| :green_heart: | [Nucleo L4R5ZI-P](http://www.st.com/en/evaluation-tools/nucleo-l4r5zi-p.html) | *1.4.0* |  |
+| :green_heart: | [Nucleo H743ZI(2)](https://www.st.com/en/evaluation-tools/nucleo-h743zi.html) | *1.5.0* | Nucleo H743ZI2 since 1.6.0 |
 
-  * STM32F1
-    * BluePill F103C8 (Basic support, no USB)
-    * MapleMini F103CB (Basic support, no USB)
-    * [Nucleo F103RB](http://www.st.com/en/evaluation-tools/nucleo-f103rb.html)
-    * [STM32VLDISCOVERY](https://community.st.com/external-link.jspa?url=http%3A%2F%2Fwww.st.com%2Fen%2Fevaluation-tools%2Fstm32vldiscovery.html)
+| Status | [Nucleo 64](https://www.st.com/content/st_com/en/products/evaluation-tools/product-evaluation-tools/mcu-eval-tools/stm32-mcu-eval-tools/stm32-nucleo-boards.html) | Release | Comment |
+| :---: | --- | :---: | :--- |
+| :green_heart: | [Nucleo F030R8](http://www.st.com/en/evaluation-tools/nucleo-f030r8.html) | *0.2.0* |  |
+| :green_heart: | [Nucleo F091RC](http://www.st.com/en/evaluation-tools/nucleo-f091rc.html) | *0.1.0* |  |
+| :green_heart: | [Nucleo F103RB](http://www.st.com/en/evaluation-tools/nucleo-f103rb.html) | *0.2.0* |  |
+| :green_heart: | [Nucleo F302R8](http://www.st.com/en/evaluation-tools/nucleo-f302r8.html) | *1.1.0* |  |
+| :green_heart: | [Nucleo F303RE](http://www.st.com/en/evaluation-tools/nucleo-f303re.html) | *0.1.0* |  |
+| :green_heart: | [Nucleo F401RE](http://www.st.com/en/evaluation-tools/nucleo-f401re.html) | *0.2.1* |  |
+| :green_heart: | [Nucleo F411RE](http://www.st.com/en/evaluation-tools/nucleo-f411re.html) | *0.2.1* |  |
+| :green_heart: | [Nucleo F446RE](http://www.st.com/en/evaluation-tools/nucleo-f446re.html) | *1.1.1* |  |
+| :green_heart: | [Nucleo-G071RB](https://www.st.com/en/evaluation-tools/nucleo-g071rb.html) | *1.6.0* |  |
+| :green_heart: | [Nucleo-G431RB](https://www.st.com/en/evaluation-tools/nucleo-g431rb.html) | *1.7.0* |  |
+| :green_heart: | [Nucleo-G474RE](https://www.st.com/en/evaluation-tools/nucleo-g474re.html) | *1.7.0* |  |
+| :green_heart: | [Nucleo L053R8](http://www.st.com/en/evaluation-tools/nucleo-l053r8.html) | *0.1.0* |  |
+| :green_heart: | [Nucleo L073RZ](http://www.st.com/en/evaluation-tools/nucleo-l073rz.html) | *1.4.0* |  |
+| :green_heart: | [Nucleo L152RE](http://www.st.com/en/evaluation-tools/nucleo-l152re.html) | *1.0.0* |  |
+| :green_heart: | [Nucleo L452RE](http://www.st.com/en/evaluation-tools/nucleo-l452re.html) | *1.5.0* |  |
+| :green_heart: | [Nucleo L476RG](http://www.st.com/en/evaluation-tools/nucleo-l476rg.html) | *0.1.0* |  |
+| :green_heart: | [P-Nucleo-WB55RG](https://www.st.com/en/evaluation-tools/p-nucleo-wb55.html) | *1.6.0* | No BLE support |
 
-  * STM32F2
-    * [Nucleo F207ZG](http://www.st.com/en/evaluation-tools/nucleo-f207zg.html)
+| Status | [Nucleo 32](https://www.st.com/content/st_com/en/products/evaluation-tools/product-evaluation-tools/mcu-eval-tools/stm32-mcu-eval-tools/stm32-nucleo-boards.html) | Release | Comment |
+| :---: | --- | :---: | :--- |
+| :green_heart: | [Nucleo F303K8](http://www.st.com/en/evaluation-tools/nucleo-f303k8.html) | *1.1.0* |  |
+| :green_heart: | [Nucleo-G431KB](https://www.st.com/en/evaluation-tools/nucleo-g431kb.html) | *1.7.0* |  |
+| :green_heart: | [Nucleo L031K6](http://www.st.com/en/evaluation-tools/nucleo-l031k6.html) | *1.1.1* |  |
+| :green_heart: | [Nucleo L412KB](http://www.st.com/en/evaluation-tools/nucleo-l412kb.html) | *1.5.0* |  |
+| :green_heart: | [Nucleo L432KC](http://www.st.com/en/evaluation-tools/nucleo-l432kc.html) | *0.2.0* |  |
 
-  * STM32F3
-    * [Nucleo F302R8](http://www.st.com/en/evaluation-tools/nucleo-f302r8.html)
-    * [Nucleo F303K8](http://www.st.com/en/evaluation-tools/nucleo-f303k8.html)
-    * [Nucleo F303RE](http://www.st.com/en/evaluation-tools/nucleo-f303re.html)
- 
-  * STM32F4
-    * [Black F407VET6](http://wiki.stm32duino.com/index.php?title=STM32F407#.22Black_VET6.22_STM32F407VET6_Variant)
-    * [Blue F407VET6 Mini](http://wiki.stm32duino.com/index.php?title=Vcc-gnd.com_STM32F407VET6_Mini)
-    * [Nucleo F401RE](http://www.st.com/en/evaluation-tools/nucleo-f401re.html)
-    * [Nucleo F411RE](http://www.st.com/en/evaluation-tools/nucleo-f411re.html)
-    * [Nucleo F429ZI](http://www.st.com/en/evaluation-tools/nucleo-f429zi.html)
-    * [Nucleo F446RE](http://www.st.com/en/evaluation-tools/nucleo-f446re.html)
-    * [STM32F407G-DISC1](http://www.st.com/en/evaluation-tools/stm32f4discovery.html)
+| Status | [Discovery](https://www.st.com/content/st_com/en/products/evaluation-tools/product-evaluation-tools/mcu-eval-tools/stm32-mcu-eval-tools/stm32-discovery-kits.html) | Release | Comment |
+| :---: | --- | :---: | :--- |
+| :green_heart: | [32F0308DISCOVERY](http://www.st.com/en/evaluation-tools/32f0308discovery.html) | *1.3.0* |  |
+| :green_heart: | [32F072BDISCOVERY](https://www.st.com/en/evaluation-tools/32f072bdiscovery.html) | *1.5.0* |  |
+| :green_heart: | [STM32VLDISCOVERY](https://www.st.com/en/evaluation-tools/stm32vldiscovery.html) | 0.2.1 |  |
+| :green_heart: | [STM32F407G-DISC1](http://www.st.com/en/evaluation-tools/stm32f4discovery.html) | *0.1.0* |  |
+| :green_heart: | [STM32F746G-DISCOVERY](http://www.st.com/en/evaluation-tools/32f746gdiscovery.html) | *0.1.0* |  |
+| :green_heart: | [B-L072Z-LRWAN1](http://www.st.com/en/evaluation-tools/b-l072z-lrwan1.html) | *1.1.0* |  |
+| :green_heart: | [B-L475E-IOT01A](http://www.st.com/en/evaluation-tools/b-l475e-iot01a.html) | *1.0.1* |  |
 
-  * STM32F7
-    * [Nucleo F767ZI](http://www.st.com/en/evaluation-tools/nucleo-f767zi.html)
-    * [RemRam v1](https://github.com/hasenbanck/remram)
-    * [STM32F746G-DISCOVERY](http://www.st.com/en/evaluation-tools/32f746gdiscovery.html)
+| Status | [Eval](https://www.st.com/en/evaluation-tools/stm32-eval-boards.html) | Release | Comment |
+| :---: | --- | :---: | :--- |
+| :green_heart: | [STEVAL-MKSBOX1V1 (SensorTile.box)](https://www.st.com/en/evaluation-tools/steval-mksbox1v1.html) | *1.7.0* |  |
 
-  * STM32L0
-    * [Nucleo L031K6](http://www.st.com/en/evaluation-tools/nucleo-l031k6.html)
-    * [Nucleo L053R8](http://www.st.com/en/evaluation-tools/nucleo-l053r8.html)
-    * [Nucleo L073RZ](http://www.st.com/en/evaluation-tools/nucleo-l073rz.html)
-    * [B-L072Z-LRWAN1](http://www.st.com/en/evaluation-tools/b-l072z-lrwan1.html)
-    * [RAK811 LoRa Tracker](https://www.rakwireless.com/en/) (Basic support)
+| Status | Generic STM32F0xx | Release | Comment |
+| :---: | --- | :---: | :--- |
+| :green_heart: | [STM32F030F4 Demo board](https://stm32-base.org/boards/STM32F030F4P6-STM32F030-DEMO-BOARD-V1.1) | *1.5.0* |  |
 
-  * STM32L1
-    * [Nucleo L152RE](http://www.st.com/en/evaluation-tools/nucleo-l152re.html)
+| Status | Generic STM32F1xx | Release | Comment |
+| :---: | --- | :---: | :--- |
+| :green_heart: | [BluePill F103C(6-8-B)](https://stm32-base.org/boards/STM32F103C8T6-Blue-Pill) | *1.2.0* | USB CDC support since *1.5.0*, Maple bootloaders support since *1.6.0* |
+| :green_heart: | [BlackPill F103C(8-B)](https://stm32-base.org/boards/STM32F103C8T6-Black-Pill) | *1.5.0* |  |
+| :green_heart: | [Generic F103R(8-B-C-E)T6](https://stm32-base.org/boards/STM32F103RET6-Generic-Board) | *1.7.0* | Blue Button |
+| :green_heart: | HY-TinySTM103T | *1.5.0* |  |
+| :green_heart: | MapleMini F103CB | *1.2.0* | USB CDC support since *1.5.0*, Maple bootloaders support since *1.6.0* |
 
-  * STM32L4
-    * [Nucleo L432KC](http://www.st.com/en/evaluation-tools/nucleo-l432kc.html)
-    * [Nucleo L476RG](http://www.st.com/en/evaluation-tools/nucleo-l476rg.html)
-    * [Nucleo L496ZG](http://www.st.com/en/evaluation-tools/nucleo-l496zg.html)
-    * [Nucleo L496ZG-P](http://www.st.com/en/evaluation-tools/nucleo-l496zg-p.html)
-    * [Nucleo L4R5ZI](http://www.st.com/en/evaluation-tools/nucleo-l4r5zi.html)
-    * [Nucleo L4R5ZI-P](http://www.st.com/en/evaluation-tools/nucleo-l4r5zi-p.html)
-    * [B-L475E-IOT01A](http://www.st.com/en/evaluation-tools/b-l475e-iot01a.html)
+| Status | Generic STM32F3xx | Release | Comment |
+| :---: | --- | :---: | :--- |
+| :green_heart: | [RobotDyn BlackPill F303CC](https://robotdyn.com/catalog/development-boards/stm-boards-and-shields.html) | *1.6.1* |  |
+
+| Status | Generic STM32F4xx | Release | Comment |
+| :---: | --- | :---: | :--- |
+| :green_heart: | BlackPill F401CC | *1.7.0* |  |
+| :green_heart: | [Black F407VET6](https://stm32-base.org/boards/STM32F407VET6-STM32-F4VE-V2.0) | *1.4.0* | VG/ZE/ZG in *1.5.0* |
+| :green_heart: | [Blue F407VET6 Mini](https://stm32-base.org/boards/STM32F407VET6-VCC-GND-Small) | *1.4.0* |  |
+| :green_heart: | Core Board F401RC | *1.7.0* |  |
+| :green_heart: | [DIYMORE STM32F407VGT](https://stm32-base.org/boards/STM32F407VGT6-diymore) | *1.5.0* |  |
+| :green_heart: | FK407M1 | *1.5.0* |  |
+
+| Status | 3D printer boards | Release | Comment |
+| :---: | --- | :---: | :--- |
+| :green_heart: | [ARMED V1](https://github.com/ktand/Armed) | *1.5.0* |  |
+| :green_heart: | [EExtruder F030 V1](https://github.com/ghent360/PrntrBoard/tree/tmc2130-redesign/EExtruder) | *1.5.0* | Small companion board for Prntr Board V1 |
+| :green_heart: | Malyan M200 V1 | *1.5.0* |  |
+| :green_heart: | Malyan M200 V2 | *1.5.0* |  |
+| :green_heart: | [Prntr Board V1](https://github.com/ghent360/PrntrBoard) | *1.5.0* |  |
+| :green_heart: | [RemRam v1](https://github.com/hasenbanck/remram) | *1.4.0* |  |
+| :green_heart: | [RUMBA32](https://github.com/Aus3D/RUMBA32) | *1.5.0* |  |
+| :green_heart: | [STEVAL-3DP001V1](https://www.st.com/en/evaluation-tools/steval-3dp001v1.html) | *1.6.0* |  |
+| :green_heart: | [VAkE v1.0](https://www.facebook.com/pages/category/Product-Service/VAkE-Board-2290066274575218/) | *1.6.0* |  |
+
+| Status | LoRa boards | Release | Comment |
+| :---: | --- | :---: | :--- |
+| :green_heart: | [RAK811 LoRa Tracker](https://www.rakwireless.com/en/) | *1.4.0* | Basic support |
+| :green_heart: | [RHF76-052](https://www.ai-thinker.com/) | *1.7.0* | Basic support |
+
+| Status | Sparky flight controllers | Release | Comment |
+| :---: | --- | :---: | :--- |
+| :green_heart: | [Sparky V1](https://github.com/TauLabs/TauLabs/wiki/Sparky) | *1.6.0* |  |
+
+| Status | Generic flight controllers | Release | Comment |
+| :---: | --- | :---: | :--- |
+| :green_heart: | Afro Flight Rev5 (8/12MHz) | *1.7.0* |  |
+
+| Status | [Midatronics](https://midatronics.com/) | Release | Comment |
+| :---: | --- | :---: | :--- |
+| :green_heart: | [SharkyMKR](https://midatronics.com/Development_Boards/MKR_Sharky_I) | *1.7.0* |  |
 
 ## Next release
 
-  See this [milestone](https://github.com/stm32duino/Arduino_Core_STM32/milestone/6) to have an overview of the next release content.
-
-### New boards
-
-  * STM32F0
-     * STM32F030F4 Demo board
-
-  * STM32F4
-     * [ARMED V1](https://github.com/ktand/Armed)
-     * DIYMROE STM32F407VGT
-
-  * STM32H7
-    * [Nucleo H743ZI](https://www.st.com/en/evaluation-tools/nucleo-h743zi.html)
-
-  * STM32L4
-    * [Nucleo L412KB](http://www.st.com/en/evaluation-tools/nucleo-l412kb.html)
+  See [milestones](https://github.com/stm32duino/Arduino_Core_STM32/milestones) to have an overview of the next release content.
 
 ## Troubleshooting
 
+### Important notice:
+
+**Currently [stm32duino forum](http://stm32duino.com) is down. Forum alternative is under investigation.**
+
 If you have any issue, you could [file an issue on Github](https://github.com/stm32duino/Arduino_Core_STM32/issues/new).
 
-Or submit a topic on the [stm32duino forum](http://stm32duino.com):
+For question, support, ...,  you could submit a topic on the [stm32duino forum](http://stm32duino.com):
 
- * questions on the [STM32 Core](http://stm32duino.com/viewforum.php?f=48)
-
- * bugs/enhancements on the [STM core: Bugs and enhancements](http://stm32duino.com/viewforum.php?f=49)
+In any case, it always fine to search if your issue was not already existing before submit a new one.

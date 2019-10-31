@@ -30,19 +30,13 @@
 #ifndef _VARIANT_ARDUINO_STM32_
 #define _VARIANT_ARDUINO_STM32_
 
-/*----------------------------------------------------------------------------
- *        Headers
- *----------------------------------------------------------------------------*/
-#include "PeripheralPins.h"
-
 #ifdef __cplusplus
-extern "C"{
+extern "C" {
 #endif // __cplusplus
 
 /*----------------------------------------------------------------------------
  *        Pins
  *----------------------------------------------------------------------------*/
-extern const PinName digitalPin[];
 
 // USB connector on the top, MCU side
 // Left Side
@@ -82,11 +76,9 @@ extern const PinName digitalPin[];
 #define PIN_WIRE_SCL            PA9  // Default for Arduino connector compatibility
 
 // Timer Definitions
-// Do not use timer used by PWM pins when possible. See PinMap_PWM.
+// Use TIM6/TIM7 when possible as servo and tone don't need GPIO output pin
 #define TIMER_TONE              TIM17
-
-// Do not use basic timer: OC is required
-#define TIMER_SERVO             TIM16  //TODO: advanced-control timers don't work
+#define TIMER_SERVO             TIM16
 
 // UART Definitions
 #define SERIAL_UART_INSTANCE    1
@@ -94,6 +86,10 @@ extern const PinName digitalPin[];
 // Mandatory for Firmata
 #define PIN_SERIAL_RX           PA3
 #define PIN_SERIAL_TX           PA2
+
+#ifdef ARDUINO_DEMO_F030F4_16M
+#define HSE_VALUE               16000000U  /*!< Value of the External oscillator in Hz */
+#endif
 
 #ifdef __cplusplus
 } // extern "C"

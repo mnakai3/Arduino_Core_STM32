@@ -31,19 +31,13 @@
 #ifndef _VARIANT_ARDUINO_STM32_
 #define _VARIANT_ARDUINO_STM32_
 
-/*----------------------------------------------------------------------------
- *        Headers
- *----------------------------------------------------------------------------*/
-#include "PeripheralPins.h"
-
 #ifdef __cplusplus
-extern "C"{
+extern "C" {
 #endif // __cplusplus
 
 /*----------------------------------------------------------------------------
  *        Pins
  *----------------------------------------------------------------------------*/
-extern const PinName digitalPin[];
 
 #define PE0    0
 #define PE1    1
@@ -198,7 +192,7 @@ extern const PinName digitalPin[];
 #define PIN_WIRE_SCL            PB8
 
 // Timer Definitions
-// Do not use timer used by PWM pin. See PinMap_PWM.
+// Use TIM6/TIM7 when possible as servo and tone don't need GPIO output pin
 #define TIMER_TONE              TIM6
 #define TIMER_SERVO             TIM7
 
@@ -209,6 +203,10 @@ extern const PinName digitalPin[];
 // Mandatory for Firmata
 #define PIN_SERIAL_RX           PA10
 #define PIN_SERIAL_TX           PA9
+
+/* Extra HAL modules */
+#define HAL_DAC_MODULE_ENABLED
+#define HAL_SD_MODULE_ENABLED
 
 #ifdef __cplusplus
 } // extern "C"

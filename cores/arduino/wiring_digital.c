@@ -24,10 +24,7 @@ extern "C" {
 #endif
 
 
-//This is the list of the IOs configured
-uint32_t g_digPinConfigured[MAX_NB_PORT] = {0};
 extern uint32_t g_anOutputPinConfigured[MAX_NB_PORT];
-
 
 void pinMode(uint32_t ulPin, uint32_t ulMode)
 {
@@ -35,18 +32,23 @@ void pinMode(uint32_t ulPin, uint32_t ulMode)
 
   if (p != NC) {
     // If the pin that support PWM or DAC output, we need to turn it off
+#if defined(HAL_DAC_MODULE_ENABLED) || defined(HAL_TIM_MODULE_ENABLED)
     if (is_pin_configured(p, g_anOutputPinConfigured)) {
 #ifdef HAL_DAC_MODULE_ENABLED
       if (pin_in_pinmap(p, PinMap_DAC)) {
         dac_stop(p);
       } else
 #endif //HAL_DAC_MODULE_ENABLED
+#ifdef HAL_TIM_MODULE_ENABLED
         if (pin_in_pinmap(p, PinMap_PWM)) {
           pwm_stop(p);
         }
-      reset_pin_configured(p, g_anOutputPinConfigured);
+#endif //HAL_TIM_MODULE_ENABLED
+      {
+        reset_pin_configured(p, g_anOutputPinConfigured);
+      }
     }
-
+#endif
     switch (ulMode) {
       case INPUT: /* INPUT_FLOATING */
         pin_function(p, STM_PIN_DATA(STM_MODE_INPUT, GPIO_NOPULL, 0));
@@ -70,7 +72,6 @@ void pinMode(uint32_t ulPin, uint32_t ulMode)
         Error_Handler();
         break;
     }
-    set_pin_configured(p, g_digPinConfigured);
   }
 }
 

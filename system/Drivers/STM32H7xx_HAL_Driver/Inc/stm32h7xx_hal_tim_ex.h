@@ -4,7 +4,7 @@
   * @author  MCD Application Team
   * @brief   Header file of TIM HAL Extended module.
   ******************************************************************************
-    * @attention
+  * @attention
   *
   * <h2><center>&copy; Copyright (c) 2017 STMicroelectronics.
   * All rights reserved.</center></h2>
@@ -93,9 +93,9 @@ TIMEx_BreakInputConfigTypeDef;
 #define TIM_TIM1_ETR_GPIO        0x00000000U                                                 /* !< TIM1_ETR is connected to GPIO */
 #define TIM_TIM1_ETR_COMP1       TIM1_AF1_ETRSEL_0                                           /* !< TIM1_ETR is connected to COMP1 OUT */
 #define TIM_TIM1_ETR_COMP2       TIM1_AF1_ETRSEL_1                                           /* !< TIM1_ETR is connected to COMP2 OUT */
-#define TIM_TIM1_ETR_ADC1_AWD1   (TIM1_AF1_ETRSEL_1 | TIM1_AF1_ETRSEL_0)                     /* !< TIM1_ETR is connected to ADC1 AWD1 */
-#define TIM_TIM1_ETR_ADC1_AWD2   (TIM1_AF1_ETRSEL_2)                                         /* !< TIM1_ETR is connected to ADC1 AWD2 */
-#define TIM_TIM1_ETR_ADC1_AWD3   (TIM1_AF1_ETRSEL_2 | TIM1_AF1_ETRSEL_0)                     /* !< TIM1_ETR is connected to ADC1 AWD3 */
+#define TIM_TIM1_ETR_ADC2_AWD1   (TIM1_AF1_ETRSEL_1 | TIM1_AF1_ETRSEL_0)                     /* !< TIM1_ETR is connected to ADC2 AWD1 */
+#define TIM_TIM1_ETR_ADC2_AWD2   (TIM1_AF1_ETRSEL_2)                                         /* !< TIM1_ETR is connected to ADC2 AWD2 */
+#define TIM_TIM1_ETR_ADC2_AWD3   (TIM1_AF1_ETRSEL_2 | TIM1_AF1_ETRSEL_0)                     /* !< TIM1_ETR is connected to ADC2 AWD3 */
 #define TIM_TIM1_ETR_ADC3_AWD1   (TIM1_AF1_ETRSEL_2 | TIM1_AF1_ETRSEL_1)                     /* !< TIM1_ETR is connected to ADC3 AWD1 */
 #define TIM_TIM1_ETR_ADC3_AWD2   (TIM1_AF1_ETRSEL_2 | TIM1_AF1_ETRSEL_1 | TIM1_AF1_ETRSEL_0) /* !< TIM1_ETR is connected to ADC3 AWD2 */
 #define TIM_TIM1_ETR_ADC3_AWD3   TIM1_AF1_ETRSEL_3                                           /* !< TIM1_ETR is connected to ADC3 AWD3 */
@@ -103,9 +103,9 @@ TIMEx_BreakInputConfigTypeDef;
 #define TIM_TIM8_ETR_GPIO        0x00000000U                                                 /* !< TIM8_ETR is connected to GPIO */
 #define TIM_TIM8_ETR_COMP1       TIM8_AF1_ETRSEL_0                                           /* !< TIM8_ETR is connected to COMP1 OUT */
 #define TIM_TIM8_ETR_COMP2       TIM8_AF1_ETRSEL_1                                           /* !< TIM8_ETR is connected to COMP2 OUT */
-#define TIM_TIM8_ETR_ADC1_AWD1   (TIM8_AF1_ETRSEL_1 | TIM8_AF1_ETRSEL_0)                     /* !< TIM8_ETR is connected to ADC1 AWD1 */
-#define TIM_TIM8_ETR_ADC1_AWD2   (TIM8_AF1_ETRSEL_2)                                         /* !< TIM8_ETR is connected to ADC1 AWD2 */
-#define TIM_TIM8_ETR_ADC1_AWD3   (TIM8_AF1_ETRSEL_2 | TIM8_AF1_ETRSEL_0)                     /* !< TIM8_ETR is connected to ADC1 AWD3 */
+#define TIM_TIM8_ETR_ADC2_AWD1   (TIM8_AF1_ETRSEL_1 | TIM8_AF1_ETRSEL_0)                     /* !< TIM8_ETR is connected to ADC2 AWD1 */
+#define TIM_TIM8_ETR_ADC2_AWD2   (TIM8_AF1_ETRSEL_2)                                         /* !< TIM8_ETR is connected to ADC2 AWD2 */
+#define TIM_TIM8_ETR_ADC2_AWD3   (TIM8_AF1_ETRSEL_2 | TIM8_AF1_ETRSEL_0)                     /* !< TIM8_ETR is connected to ADC2 AWD3 */
 #define TIM_TIM8_ETR_ADC3_AWD1   (TIM8_AF1_ETRSEL_2 | TIM8_AF1_ETRSEL_1)                     /* !< TIM8_ETR is connected to ADC3 AWD1 */
 #define TIM_TIM8_ETR_ADC3_AWD2   (TIM8_AF1_ETRSEL_2 | TIM8_AF1_ETRSEL_1 | TIM8_AF1_ETRSEL_0) /* !< TIM8_ETR is connected to ADC3 AWD2 */
 #define TIM_TIM8_ETR_ADC3_AWD3   TIM8_AF1_ETRSEL_3                                           /* !< TIM8_ETR is connected to ADC3 AWD3 */
@@ -190,6 +190,13 @@ TIMEx_BreakInputConfigTypeDef;
 #define TIM_TIM5_TI1_CAN_TMP                       TIM_TISEL_TI1SEL_0                        /* !< TIM5_TI1 is connected to CAN TMP */
 #define TIM_TIM5_TI1_CAN_RTP                       TIM_TISEL_TI1SEL_1                        /* !< TIM5_TI1 is connected to CAN RTP */
 
+#if defined(TIM12_TI1_GPIO_SUPPORT)
+#define TIM_TIM12_TI1_GPIO                         0x00000000U                               /* !< TIM12 TI1 is connected to GPIO */
+#endif /* TIM12_TI1_GPIO_SUPPORT */
+#if defined(TIM12_TI1_SPDIF_FS_SUPPORT)
+#define TIM_TIM12_TI1_SPDIF_FS                     TIM_TISEL_TI1SEL_0                        /* !< TIM12 TI1 is connected to SPDIF FS */
+#endif /* TIM12_TI1_SPDIF_FS_SUPPORT */
+
 #define TIM_TIM15_TI1_GPIO                         0x00000000U                               /* !< TIM15_TI1 is connected to GPIO */
 #define TIM_TIM15_TI1_TIM2_CH1                     TIM_TISEL_TI1SEL_0                        /* !< TIM15_TI1 is connected to TIM2 CH1 */
 #define TIM_TIM15_TI1_TIM3_CH1                     TIM_TISEL_TI1SEL_1                        /* !< TIM15_TI1 is connected to TIM3 CH1 */
@@ -209,8 +216,10 @@ TIMEx_BreakInputConfigTypeDef;
 #define TIM_TIM16_TI1_WKUP_IT                      (TIM_TISEL_TI1SEL_0 | TIM_TISEL_TI1SEL_1) /* !< TIM16 TI1 is connected to WKUP_IT */
 
 #define TIM_TIM17_TI1_GPIO                         0x00000000U                               /* !< TIM17 TI1 is connected to GPIO */
-#define TIM_TIM17_TI1_SPDIF_FS                     TIM_TISEL_TI1SEL_0                        /* !< TIM17 TI1 is connected to RCC LSI  */
-#define TIM_TIM17_TI1_RCC_HSE1MHZ                  TIM_TISEL_TI1SEL_1                        /* !< TIM17 TI1 is connected to RCC LSE  */
+#if defined(TIM17_TI1_SPDIF_FS_SUPPORT)
+#define TIM_TIM17_TI1_SPDIF_FS                     TIM_TISEL_TI1SEL_0                        /* !< TIM17 TI1 is connected to SPDIF FS */
+#endif /* TIM17_TI1_SPDIF_FS_SUPPORT */
+#define TIM_TIM17_TI1_RCC_HSE1MHZ                  TIM_TISEL_TI1SEL_1                        /* !< TIM17 TI1 is connected to RCC HSE 1Mhz */
 #define TIM_TIM17_TI1_RCC_MCO1                     (TIM_TISEL_TI1SEL_0 | TIM_TISEL_TI1SEL_1) /* !< TIM17 TI1 is connected to RCC MCO1 */
 /**
   * @}
@@ -285,18 +294,18 @@ TIMEx_BreakInputConfigTypeDef;
                                   ((__TISEL__) == TIM_TIM17_TI1_RCC_MCO1))
 
 #define IS_TIM_REMAP(__RREMAP__)     (((__RREMAP__) == TIM_TIM1_ETR_GPIO)      ||\
-                                      ((__RREMAP__) == TIM_TIM1_ETR_ADC1_AWD1) ||\
-                                      ((__RREMAP__) == TIM_TIM1_ETR_ADC1_AWD2) ||\
-                                      ((__RREMAP__) == TIM_TIM1_ETR_ADC1_AWD3) ||\
+                                      ((__RREMAP__) == TIM_TIM1_ETR_ADC2_AWD1) ||\
+                                      ((__RREMAP__) == TIM_TIM1_ETR_ADC2_AWD2) ||\
+                                      ((__RREMAP__) == TIM_TIM1_ETR_ADC2_AWD3) ||\
                                       ((__RREMAP__) == TIM_TIM1_ETR_ADC3_AWD1) ||\
                                       ((__RREMAP__) == TIM_TIM1_ETR_ADC3_AWD2) ||\
                                       ((__RREMAP__) == TIM_TIM1_ETR_ADC3_AWD3) ||\
                                       ((__RREMAP__) == TIM_TIM1_ETR_COMP1)     ||\
                                       ((__RREMAP__) == TIM_TIM1_ETR_COMP2)     ||\
                                       ((__RREMAP__) == TIM_TIM8_ETR_GPIO)      ||\
-                                      ((__RREMAP__) == TIM_TIM8_ETR_ADC1_AWD1) ||\
-                                      ((__RREMAP__) == TIM_TIM8_ETR_ADC1_AWD2) ||\
-                                      ((__RREMAP__) == TIM_TIM8_ETR_ADC1_AWD3) ||\
+                                      ((__RREMAP__) == TIM_TIM8_ETR_ADC2_AWD1) ||\
+                                      ((__RREMAP__) == TIM_TIM8_ETR_ADC2_AWD2) ||\
+                                      ((__RREMAP__) == TIM_TIM8_ETR_ADC2_AWD3) ||\
                                       ((__RREMAP__) == TIM_TIM8_ETR_ADC3_AWD1) ||\
                                       ((__RREMAP__) == TIM_TIM8_ETR_ADC3_AWD2) ||\
                                       ((__RREMAP__) == TIM_TIM8_ETR_ADC3_AWD3) ||\
@@ -326,9 +335,9 @@ TIMEx_BreakInputConfigTypeDef;
   */
 
 /** @addtogroup TIMEx_Exported_Functions_Group1 Extended Timer Hall Sensor functions
- *  @brief    Timer Hall Sensor functions
- * @{
- */
+  *  @brief    Timer Hall Sensor functions
+  * @{
+  */
 /*  Timer Hall Sensor functions  **********************************************/
 HAL_StatusTypeDef HAL_TIMEx_HallSensor_Init(TIM_HandleTypeDef *htim, TIM_HallSensor_InitTypeDef *sConfig);
 HAL_StatusTypeDef HAL_TIMEx_HallSensor_DeInit(TIM_HandleTypeDef *htim);
@@ -350,9 +359,9 @@ HAL_StatusTypeDef HAL_TIMEx_HallSensor_Stop_DMA(TIM_HandleTypeDef *htim);
   */
 
 /** @addtogroup TIMEx_Exported_Functions_Group2 Extended Timer Complementary Output Compare functions
- *  @brief   Timer Complementary Output Compare functions
- * @{
- */
+  *  @brief   Timer Complementary Output Compare functions
+  * @{
+  */
 /*  Timer Complementary Output Compare functions  *****************************/
 /* Blocking mode: Polling */
 HAL_StatusTypeDef HAL_TIMEx_OCN_Start(TIM_HandleTypeDef *htim, uint32_t Channel);
@@ -370,9 +379,9 @@ HAL_StatusTypeDef HAL_TIMEx_OCN_Stop_DMA(TIM_HandleTypeDef *htim, uint32_t Chann
   */
 
 /** @addtogroup TIMEx_Exported_Functions_Group3 Extended Timer Complementary PWM functions
- *  @brief    Timer Complementary PWM functions
- * @{
- */
+  *  @brief    Timer Complementary PWM functions
+  * @{
+  */
 /*  Timer Complementary PWM functions  ****************************************/
 /* Blocking mode: Polling */
 HAL_StatusTypeDef HAL_TIMEx_PWMN_Start(TIM_HandleTypeDef *htim, uint32_t Channel);
@@ -389,9 +398,9 @@ HAL_StatusTypeDef HAL_TIMEx_PWMN_Stop_DMA(TIM_HandleTypeDef *htim, uint32_t Chan
   */
 
 /** @addtogroup TIMEx_Exported_Functions_Group4 Extended Timer Complementary One Pulse functions
- *  @brief    Timer Complementary One Pulse functions
- * @{
- */
+  *  @brief    Timer Complementary One Pulse functions
+  * @{
+  */
 /*  Timer Complementary One Pulse functions  **********************************/
 /* Blocking mode: Polling */
 HAL_StatusTypeDef HAL_TIMEx_OnePulseN_Start(TIM_HandleTypeDef *htim, uint32_t OutputChannel);
@@ -405,17 +414,23 @@ HAL_StatusTypeDef HAL_TIMEx_OnePulseN_Stop_IT(TIM_HandleTypeDef *htim, uint32_t 
   */
 
 /** @addtogroup TIMEx_Exported_Functions_Group5 Extended Peripheral Control functions
- *  @brief    Peripheral Control functions
- * @{
- */
+  *  @brief    Peripheral Control functions
+  * @{
+  */
 /* Extended Control functions  ************************************************/
-HAL_StatusTypeDef HAL_TIMEx_ConfigCommutEvent(TIM_HandleTypeDef *htim, uint32_t  InputTrigger, uint32_t  CommutationSource);
-HAL_StatusTypeDef HAL_TIMEx_ConfigCommutEvent_IT(TIM_HandleTypeDef *htim, uint32_t  InputTrigger, uint32_t  CommutationSource);
-HAL_StatusTypeDef HAL_TIMEx_ConfigCommutEvent_DMA(TIM_HandleTypeDef *htim, uint32_t  InputTrigger, uint32_t  CommutationSource);
-HAL_StatusTypeDef HAL_TIMEx_MasterConfigSynchronization(TIM_HandleTypeDef *htim, TIM_MasterConfigTypeDef *sMasterConfig);
-HAL_StatusTypeDef HAL_TIMEx_ConfigBreakDeadTime(TIM_HandleTypeDef *htim, TIM_BreakDeadTimeConfigTypeDef *sBreakDeadTimeConfig);
+HAL_StatusTypeDef HAL_TIMEx_ConfigCommutEvent(TIM_HandleTypeDef *htim, uint32_t  InputTrigger,
+                                              uint32_t  CommutationSource);
+HAL_StatusTypeDef HAL_TIMEx_ConfigCommutEvent_IT(TIM_HandleTypeDef *htim, uint32_t  InputTrigger,
+                                                 uint32_t  CommutationSource);
+HAL_StatusTypeDef HAL_TIMEx_ConfigCommutEvent_DMA(TIM_HandleTypeDef *htim, uint32_t  InputTrigger,
+                                                  uint32_t  CommutationSource);
+HAL_StatusTypeDef HAL_TIMEx_MasterConfigSynchronization(TIM_HandleTypeDef *htim,
+                                                        TIM_MasterConfigTypeDef *sMasterConfig);
+HAL_StatusTypeDef HAL_TIMEx_ConfigBreakDeadTime(TIM_HandleTypeDef *htim,
+                                                TIM_BreakDeadTimeConfigTypeDef *sBreakDeadTimeConfig);
 #if defined(TIM_BREAK_INPUT_SUPPORT)
-HAL_StatusTypeDef HAL_TIMEx_ConfigBreakInput(TIM_HandleTypeDef *htim, uint32_t BreakInput, TIMEx_BreakInputConfigTypeDef *sBreakInputConfig);
+HAL_StatusTypeDef HAL_TIMEx_ConfigBreakInput(TIM_HandleTypeDef *htim, uint32_t BreakInput,
+                                             TIMEx_BreakInputConfigTypeDef *sBreakInputConfig);
 #endif /* TIM_BREAK_INPUT_SUPPORT */
 HAL_StatusTypeDef HAL_TIMEx_GroupChannel5(TIM_HandleTypeDef *htim, uint32_t Channels);
 HAL_StatusTypeDef HAL_TIMEx_RemapConfig(TIM_HandleTypeDef *htim, uint32_t Remap);
@@ -453,7 +468,7 @@ HAL_TIM_StateTypeDef HAL_TIMEx_HallSensor_GetState(TIM_HandleTypeDef *htim);
 /* End of exported functions -------------------------------------------------*/
 
 /* Private functions----------------------------------------------------------*/
-/** @defgroup TIMEx_Private_Functions TIM Extended Private Functions
+/** @addtogroup TIMEx_Private_Functions TIMEx Private Functions
   * @{
   */
 void TIMEx_DMACommutationCplt(DMA_HandleTypeDef *hdma);

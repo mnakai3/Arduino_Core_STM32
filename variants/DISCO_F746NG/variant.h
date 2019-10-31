@@ -19,19 +19,13 @@
 #ifndef _VARIANT_ARDUINO_STM32_
 #define _VARIANT_ARDUINO_STM32_
 
-/*----------------------------------------------------------------------------
- *        Headers
- *----------------------------------------------------------------------------*/
-#include "PeripheralPins.h"
-
 #ifdef __cplusplus
-extern "C"{
+extern "C" {
 #endif // __cplusplus
 
 /*----------------------------------------------------------------------------
  *        Pins
  *----------------------------------------------------------------------------*/
-extern const PinName digitalPin[];
 
 #define PC7  0
 #define PC6  1
@@ -74,11 +68,9 @@ extern const PinName digitalPin[];
 #define USER_BTN                PI11
 
 // Timer Definitions
-// Do not use timer used by PWM pins when possible. See PinMap_PWM.
+// Use TIM6/TIM7 when possible as servo and tone don't need GPIO output pin
 #define TIMER_TONE              TIM6
-
-// Do not use basic timer: OC is required
-#define TIMER_SERVO             TIM2  //TODO: advanced-control timers don't work
+#define TIMER_SERVO             TIM7
 
 // UART Definitions
 #define SERIAL_UART_INSTANCE    1 //Connected to ST-Link
@@ -89,6 +81,11 @@ extern const PinName digitalPin[];
 
 // SD detect signal
 #define SD_DETECT_PIN           PC13
+
+/* Extra HAL modules */
+#define HAL_DAC_MODULE_ENABLED
+#define HAL_ETH_MODULE_ENABLED
+#define HAL_SD_MODULE_ENABLED
 
 #ifdef __cplusplus
 } // extern "C"

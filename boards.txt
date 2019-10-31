@@ -9,16 +9,17 @@ WioLTE.name=Seeed Wio LTE Cat.1
 
 WioLTE.build.core=arduino
 WioLTE.build.board=Seeed
-WioLTE.build.extra_flags=-D{build.product_line} {build.enable_usb}
+WioLTE.build.extra_flags=-D{build.product_line} {build.enable_usb} {build.xSerial}
 WioLTE.build.vid=0x0483
 
-WioLTE.build.mcu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard
+WioLTE.build.mcu=cortex-m4
+WioLTE.build.flags.fp=-mfpu=fpv4-sp-d16 -mfloat-abi=hard
 WioLTE.build.board=WIO_LTE
 WioLTE.build.series=STM32F4xx
 WioLTE.build.product_line=STM32F405xx
 WioLTE.build.variant=WIO_LTE
 WioLTE.build.cmsis_lib_gcc=arm_cortexM4l_math
-WioLTE.build.enable_usb={build.usb_flags} -DUSBD_USE_CDC
+WioLTE.build.enable_usb={build.usb_flags} -DUSBD_USE_CDC -DDISABLE_GENERIC_SERIALUSB
 
 WioLTE.menu.Debug.Disabled=DebugOFF
 WioLTE.menu.Debug.Disabled.build.debug_print=-Os
@@ -26,16 +27,10 @@ WioLTE.menu.Debug.Enabled=DebugON
 WioLTE.menu.Debug.Enabled.build.debug_print=-O0 -DWIO_DEBUG
 
 WioLTE.upload.tool=stm32flash
-WioLTE.upload.protocol=dfu
-WioLTE.upload.use_1200bps_touch=true
-WioLTE.upload.file_type=bin
 WioLTE.upload.maximum_size=1048576
-WioLTE.upload.flash.maximum_size=1048576
-WioLTE.upload.ram.maximum_size=196608
-
-WioLTE.upload.usbID=0483:df11
+WioLTE.upload.maximum_data_size=196608
 WioLTE.upload.altID=0
-WioLTE.upload.auto_reset=true
+WioLTE.upload.usbID=0483:df11
 WioLTE.upload.dfuse_addr=0x8000000
 
 ################################################################################
@@ -45,9 +40,10 @@ Wio3G.name=Seeed Wio 3G
 
 Wio3G.build.core=arduino
 Wio3G.build.board=Seeed
-Wio3G.build.extra_flags=-D{build.product_line}
+Wio3G.build.extra_flags=-D{build.product_line} {build.xSerial}
 
-Wio3G.build.mcu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard
+Wio3G.build.mcu=cortex-m4
+Wio3G.build.flags.fp=-mfpu=fpv4-sp-d16 -mfloat-abi=hard
 Wio3G.build.board=WIO_3G
 Wio3G.build.series=STM32F4xx
 Wio3G.build.product_line=STM32F439xx
@@ -60,7 +56,6 @@ Wio3G.menu.Debug.Enabled=DebugON
 Wio3G.menu.Debug.Enabled.build.debug_print=-O0 -DWIO_DEBUG
 
 Wio3G.upload.tool=openocd
-Wio3G.upload.protocol=openocd
 Wio3G.upload.maximum_size=2097152
 Wio3G.upload.maximum_data_size=262144
 
@@ -71,9 +66,10 @@ WioLTEM1BG96.name=Seeed Wio LTE M1/NB1(BG96)
 
 WioLTEM1BG96.build.core=arduino
 WioLTEM1BG96.build.board=Seeed
-WioLTEM1BG96.build.extra_flags=-D{build.product_line}
+WioLTEM1BG96.build.extra_flags=-D{build.product_line} {build.xSerial}
 
-WioLTEM1BG96.build.mcu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard
+WioLTEM1BG96.build.mcu=cortex-m4
+WioLTEM1BG96.build.flags.fp=-mfpu=fpv4-sp-d16 -mfloat-abi=hard
 WioLTEM1BG96.build.board=WIO_LTE_M1NB1_BG96
 WioLTEM1BG96.build.series=STM32F4xx
 WioLTEM1BG96.build.product_line=STM32F439xx
@@ -86,7 +82,6 @@ WioLTEM1BG96.menu.Debug.Enabled=DebugON
 WioLTEM1BG96.menu.Debug.Enabled.build.debug_print=-O0 -DWIO_DEBUG
 
 WioLTEM1BG96.upload.tool=openocd
-WioLTEM1BG96.upload.protocol=openocd
 WioLTEM1BG96.upload.maximum_size=2097152
 WioLTEM1BG96.upload.maximum_data_size=262144
 

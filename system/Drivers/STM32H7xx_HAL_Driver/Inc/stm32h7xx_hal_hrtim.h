@@ -171,7 +171,8 @@ typedef struct
 /**
   * @brief  Simple output compare mode configuration definition
   */
-typedef struct {
+typedef struct
+{
   uint32_t Period;                   /*!< Specifies the timer period.
                                           The period value must be above 3 periods of the fHRTIM clock.
                                           Maximum value is = 0xFFDFU */
@@ -186,7 +187,8 @@ typedef struct {
 /**
   * @brief  Simple output compare mode configuration definition
   */
-typedef struct {
+typedef struct
+{
   uint32_t Mode;       /*!< Specifies the output compare mode (toggle, active, inactive).
                             This parameter can be any value of of @ref HRTIM_Simple_OC_Mode */
   uint32_t Pulse;      /*!< Specifies the compare value to be loaded into the Compare Register.
@@ -200,7 +202,8 @@ typedef struct {
 /**
   * @brief  Simple PWM output mode configuration definition
   */
-typedef struct {
+typedef struct
+{
   uint32_t Pulse;            /*!< Specifies the compare value to be loaded into the Compare Register.
                                   The compare value must be above or equal to 3 periods of the fHRTIM clock */
   uint32_t Polarity;        /*!< Specifies the output polarity.
@@ -212,7 +215,8 @@ typedef struct {
 /**
   * @brief  Simple capture mode configuration definition
   */
-typedef struct {
+typedef struct
+{
   uint32_t Event;             /*!< Specifies the external event triggering the capture.
                                    This parameter can be any 'EEVx' value of @ref HRTIM_External_Event_Channels */
   uint32_t EventPolarity;     /*!< Specifies the polarity of the external event (in case of level sensitivity).
@@ -226,7 +230,8 @@ typedef struct {
 /**
   * @brief  Simple One Pulse mode configuration definition
   */
-typedef struct {
+typedef struct
+{
   uint32_t Pulse;             /*!< Specifies the compare value to be loaded into the Compare Register.
                                    The compare value must be above or equal to 3 periods of the fHRTIM clock */
   uint32_t OutputPolarity;    /*!< Specifies the output polarity.
@@ -246,7 +251,8 @@ typedef struct {
 /**
   * @brief  Timer configuration definition
   */
-typedef struct {
+typedef struct
+{
   uint32_t InterruptRequests;      /*!< Relevant for all HRTIM timers, including the master.
                                        Specifies which interrupts requests must enabled for the timer.
                                        This parameter can be any combination of  @ref HRTIM_Master_Interrupt_Enable
@@ -315,7 +321,8 @@ typedef struct {
 /**
   * @brief  Compare unit configuration definition
   */
-typedef struct {
+typedef struct
+{
   uint32_t CompareValue;         /*!< Specifies the compare value of the timer compare unit.
                                       The minimum value must be greater than or equal to 3 periods of the fHRTIM clock.
                                       The maximum value must be less than or equal to 0xFFFFU - 1 periods of the fHRTIM clock */
@@ -328,7 +335,8 @@ typedef struct {
 /**
   * @brief  Capture unit configuration definition
   */
-typedef struct {
+typedef struct
+{
   uint32_t Trigger;          /*!< Specifies source(s) triggering the capture.
                                   This parameter can be a combination of @ref HRTIM_Capture_Unit_Trigger */
 } HRTIM_CaptureCfgTypeDef;
@@ -336,7 +344,8 @@ typedef struct {
 /**
   * @brief  Output configuration definition
   */
-typedef struct {
+typedef struct
+{
   uint32_t Polarity;                    /*!< Specifies the output polarity.
                                              This parameter can be any value of @ref HRTIM_Output_Polarity */
   uint32_t SetSource;                   /*!< Specifies the event(s) transitioning the output from its inactive level to its active level.
@@ -358,7 +367,8 @@ typedef struct {
 /**
   * @brief  External event filtering in timing units configuration definition
   */
-typedef struct {
+typedef struct
+{
   uint32_t Filter;       /*!< Specifies the type of event filtering within the timing unit.
                              This parameter can be a value of @ref HRTIM_Timer_External_Event_Filter */
   uint32_t Latch;       /*!< Specifies whether or not the signal is latched.
@@ -368,7 +378,8 @@ typedef struct {
 /**
   * @brief  Dead time feature configuration definition
   */
-typedef struct {
+typedef struct
+{
   uint32_t Prescaler;        /*!< Specifies the dead-time prescaler.
                                   This parameter can be a value of @ref  HRTIM_Deadtime_Prescaler_Ratio */
   uint32_t RisingValue;      /*!< Specifies the dead-time following a rising edge.
@@ -387,12 +398,13 @@ typedef struct {
                                   This parameter can be a value of @ref HRTIM_Deadtime_Falling_Lock */
   uint32_t FallingSignLock;  /*!< Specifies whether or not dead-time falling sign is write protected.
                                   This parameter can be a value of @ref HRTIM_Deadtime_Falling_Sign_Lock */
-} HRTIM_DeadTimeCfgTypeDef ;
+} HRTIM_DeadTimeCfgTypeDef;
 
 /**
   * @brief  Chopper mode configuration definition
   */
-typedef struct {
+typedef struct
+{
   uint32_t CarrierFreq;  /*!< Specifies the Timer carrier frequency value.
                               This parameter can be a value of @ref HRTIM_Chopper_Frequency */
   uint32_t DutyCycle;    /*!< Specifies the Timer chopper duty cycle value.
@@ -404,7 +416,8 @@ typedef struct {
 /**
   * @brief  External event channel configuration definition
   */
-typedef struct {
+typedef struct
+{
   uint32_t Source;        /*!< Identifies the source of the external event.
                                This parameter can be a value of @ref HRTIM_External_Event_Sources */
   uint32_t Polarity;      /*!< Specifies the polarity of the external event (in case of level sensitivity).
@@ -420,7 +433,8 @@ typedef struct {
 /**
   * @brief  Fault channel configuration definition
   */
-typedef struct {
+typedef struct
+{
   uint32_t Source;        /*!< Identifies the source of the fault.
                                This parameter can be a value of @ref HRTIM_Fault_Sources */
   uint32_t Polarity;      /*!< Specifies the polarity of the fault event.
@@ -434,7 +448,8 @@ typedef struct {
 /**
   * @brief  Burst mode configuration definition
   */
-typedef struct {
+typedef struct
+{
   uint32_t Mode;           /*!< Specifies the burst mode operating mode.
                                 This parameter can be a value of @ref HRTIM_Burst_Mode_Operating_Mode */
   uint32_t ClockSource;    /*!< Specifies the burst mode clock source.
@@ -454,7 +469,8 @@ typedef struct {
 /**
   * @brief  ADC trigger configuration definition
   */
-typedef struct {
+typedef struct
+{
   uint32_t UpdateSource;  /*!< Specifies the ADC trigger update source.
                                This parameter can be a value of @ref HRTIM_ADC_Trigger_Update_Source  */
   uint32_t Trigger;       /*!< Specifies the event(s) triggering the ADC conversion.
@@ -945,90 +961,38 @@ typedef void (* pHRTIM_TIMxCallbackTypeDef)(HRTIM_HandleTypeDef *hhrtim,    /*!<
   * @brief Constants defining the events that can be selected to configure the
   *        set crossbar of a timer output
   */
-#define HRTIM_OUTPUTSET_NONE       0x00000000U             /*!< Reset the output set crossbar */
-#define HRTIM_OUTPUTSET_RESYNC     (HRTIM_SET1R_RESYNC)    /*!< Timer reset event coming solely from software or SYNC input forces the output to its active state */
-#define HRTIM_OUTPUTSET_TIMPER     (HRTIM_SET1R_PER)       /*!< Timer period event forces the output to its active state */
-#define HRTIM_OUTPUTSET_TIMCMP1    (HRTIM_SET1R_CMP1)      /*!< Timer compare 1 event forces the output to its active state */
-#define HRTIM_OUTPUTSET_TIMCMP2    (HRTIM_SET1R_CMP2)      /*!< Timer compare 2 event forces the output to its active state */
-#define HRTIM_OUTPUTSET_TIMCMP3    (HRTIM_SET1R_CMP3)      /*!< Timer compare 3 event forces the output to its active state */
-#define HRTIM_OUTPUTSET_TIMCMP4    (HRTIM_SET1R_CMP4)      /*!< Timer compare 4 event forces the output to its active state */
-#define HRTIM_OUTPUTSET_MASTERPER  (HRTIM_SET1R_MSTPER)    /*!< The master timer period event forces the output to its active state */
-#define HRTIM_OUTPUTSET_MASTERCMP1 (HRTIM_SET1R_MSTCMP1)   /*!< Master Timer compare 1 event forces the output to its active state */
-#define HRTIM_OUTPUTSET_MASTERCMP2 (HRTIM_SET1R_MSTCMP2)   /*!< Master Timer compare 2 event forces the output to its active state */
-#define HRTIM_OUTPUTSET_MASTERCMP3 (HRTIM_SET1R_MSTCMP3)   /*!< Master Timer compare 3 event forces the output to its active state */
-#define HRTIM_OUTPUTSET_MASTERCMP4 (HRTIM_SET1R_MSTCMP4)   /*!< Master Timer compare 4 event forces the output to its active state */
-/* Timer Events mapping for Timer A */
-#define HRTIM_OUTPUTSET_TIMAEV1_TIMBCMP1    (HRTIM_SET1R_TIMEVNT1)  /*!< Timer event 1 forces the output to its active state */
-#define HRTIM_OUTPUTSET_TIMAEV2_TIMBCMP2    (HRTIM_SET1R_TIMEVNT2)  /*!< Timer event 2 forces the output to its active state */
-#define HRTIM_OUTPUTSET_TIMAEV3_TIMCCMP2    (HRTIM_SET1R_TIMEVNT3)  /*!< Timer event 3 forces the output to its active state */
-#define HRTIM_OUTPUTSET_TIMAEV4_TIMCCMP3    (HRTIM_SET1R_TIMEVNT4)  /*!< Timer event 4 forces the output to its active state */
-#define HRTIM_OUTPUTSET_TIMAEV5_TIMDCMP1    (HRTIM_SET1R_TIMEVNT5)  /*!< Timer event 5 forces the output to its active state */
-#define HRTIM_OUTPUTSET_TIMAEV6_TIMDCMP2    (HRTIM_SET1R_TIMEVNT6)  /*!< Timer event 6 forces the output to its active state */
-#define HRTIM_OUTPUTSET_TIMAEV7_TIMECMP3    (HRTIM_SET1R_TIMEVNT7)  /*!< Timer event 7 forces the output to its active state */
-#define HRTIM_OUTPUTSET_TIMAEV8_TIMECMP4    (HRTIM_SET1R_TIMEVNT8)  /*!< Timer event 8 forces the output to its active state */
-#define HRTIM_OUTPUTSET_TIMAEV9_TIMFCMP4    (HRTIM_SET1R_TIMEVNT9)  /*!< Timer event 9 forces the output to its active state */
-/* Timer Events mapping for Timer B */
-#define HRTIM_OUTPUTSET_TIMBEV1_TIMACMP1    (HRTIM_SET1R_TIMEVNT1)  /*!< Timer event 1 forces the output to its active state */
-#define HRTIM_OUTPUTSET_TIMBEV2_TIMACMP2    (HRTIM_SET1R_TIMEVNT2)  /*!< Timer event 2 forces the output to its active state */
-#define HRTIM_OUTPUTSET_TIMBEV3_TIMCCMP3    (HRTIM_SET1R_TIMEVNT3)  /*!< Timer event 3 forces the output to its active state */
-#define HRTIM_OUTPUTSET_TIMBEV4_TIMCCMP4    (HRTIM_SET1R_TIMEVNT4)  /*!< Timer event 4 forces the output to its active state */
-#define HRTIM_OUTPUTSET_TIMBEV5_TIMDCMP3    (HRTIM_SET1R_TIMEVNT5)  /*!< Timer event 5 forces the output to its active state */
-#define HRTIM_OUTPUTSET_TIMBEV6_TIMDCMP4    (HRTIM_SET1R_TIMEVNT6)  /*!< Timer event 6 forces the output to its active state */
-#define HRTIM_OUTPUTSET_TIMBEV7_TIMECMP1    (HRTIM_SET1R_TIMEVNT7)  /*!< Timer event 7 forces the output to its active state */
-#define HRTIM_OUTPUTSET_TIMBEV8_TIMECMP2    (HRTIM_SET1R_TIMEVNT8)  /*!< Timer event 8 forces the output to its active state */
-#define HRTIM_OUTPUTSET_TIMBEV9_TIMFCMP3    (HRTIM_SET1R_TIMEVNT9)  /*!< Timer event 9 forces the output to its active state */
-/* Timer Events mapping for Timer C */
-#define HRTIM_OUTPUTSET_TIMCEV1_TIMACMP1    (HRTIM_SET1R_TIMEVNT1)  /*!< Timer event 1 forces the output to its active state */
-#define HRTIM_OUTPUTSET_TIMCEV2_TIMACMP2    (HRTIM_SET1R_TIMEVNT2)  /*!< Timer event 2 forces the output to its active state */
-#define HRTIM_OUTPUTSET_TIMCEV3_TIMBCMP2    (HRTIM_SET1R_TIMEVNT3)  /*!< Timer event 3 forces the output to its active state */
-#define HRTIM_OUTPUTSET_TIMCEV4_TIMBCMP3    (HRTIM_SET1R_TIMEVNT4)  /*!< Timer event 4 forces the output to its active state */
-#define HRTIM_OUTPUTSET_TIMCEV5_TIMDCMP2    (HRTIM_SET1R_TIMEVNT5)  /*!< Timer event 5 forces the output to its active state */
-#define HRTIM_OUTPUTSET_TIMCEV6_TIMDCMP4    (HRTIM_SET1R_TIMEVNT6)  /*!< Timer event 6 forces the output to its active state */
-#define HRTIM_OUTPUTSET_TIMCEV7_TIMECMP3    (HRTIM_SET1R_TIMEVNT7)  /*!< Timer event 7 forces the output to its active state */
-#define HRTIM_OUTPUTSET_TIMCEV8_TIMECMP4    (HRTIM_SET1R_TIMEVNT8)  /*!< Timer event 8 forces the output to its active state */
-#define HRTIM_OUTPUTSET_TIMCEV9_TIMFCMP2    (HRTIM_SET1R_TIMEVNT9)  /*!< Timer event 9 forces the output to its active state */
-/* Timer Events mapping for Timer D */
-#define HRTIM_OUTPUTSET_TIMDEV1_TIMACMP1    (HRTIM_SET1R_TIMEVNT1)  /*!< Timer event 1 forces the output to its active state */
-#define HRTIM_OUTPUTSET_TIMDEV2_TIMACMP4    (HRTIM_SET1R_TIMEVNT2)  /*!< Timer event 2 forces the output to its active state */
-#define HRTIM_OUTPUTSET_TIMDEV3_TIMBCMP2    (HRTIM_SET1R_TIMEVNT3)  /*!< Timer event 3 forces the output to its active state */
-#define HRTIM_OUTPUTSET_TIMDEV4_TIMBCMP4    (HRTIM_SET1R_TIMEVNT4)  /*!< Timer event 4 forces the output to its active state */
-#define HRTIM_OUTPUTSET_TIMDEV5_TIMCCMP4    (HRTIM_SET1R_TIMEVNT5)  /*!< Timer event 5 forces the output to its active state */
-#define HRTIM_OUTPUTSET_TIMDEV6_TIMECMP1    (HRTIM_SET1R_TIMEVNT6)  /*!< Timer event 6 forces the output to its active state */
-#define HRTIM_OUTPUTSET_TIMDEV7_TIMECMP4    (HRTIM_SET1R_TIMEVNT7)  /*!< Timer event 7 forces the output to its active state */
-#define HRTIM_OUTPUTSET_TIMDEV8_TIMFCMP1    (HRTIM_SET1R_TIMEVNT8)  /*!< Timer event 8 forces the output to its active state */
-#define HRTIM_OUTPUTSET_TIMDEV9_TIMFCMP3    (HRTIM_SET1R_TIMEVNT9)  /*!< Timer event 9 forces the output to its active state */
-/* Timer Events mapping for Timer E */
-#define HRTIM_OUTPUTSET_TIMEEV1_TIMACMP4    (HRTIM_SET1R_TIMEVNT1)  /*!< Timer event 1 forces the output to its active state */
-#define HRTIM_OUTPUTSET_TIMEEV2_TIMBCMP3    (HRTIM_SET1R_TIMEVNT2)  /*!< Timer event 2 forces the output to its active state */
-#define HRTIM_OUTPUTSET_TIMEEV3_TIMBCMP4    (HRTIM_SET1R_TIMEVNT3)  /*!< Timer event 3 forces the output to its active state */
-#define HRTIM_OUTPUTSET_TIMEEV4_TIMCCMP1    (HRTIM_SET1R_TIMEVNT4)  /*!< Timer event 4 forces the output to its active state */
-#define HRTIM_OUTPUTSET_TIMEEV5_TIMDCMP2    (HRTIM_SET1R_TIMEVNT5)  /*!< Timer event 5 forces the output to its active state */
-#define HRTIM_OUTPUTSET_TIMEEV6_TIMDCMP1    (HRTIM_SET1R_TIMEVNT6)  /*!< Timer event 6 forces the output to its active state */
-#define HRTIM_OUTPUTSET_TIMEEV7_TIMDCMP2    (HRTIM_SET1R_TIMEVNT7)  /*!< Timer event 7 forces the output to its active state */
-#define HRTIM_OUTPUTSET_TIMEEV8_TIMFCMP3    (HRTIM_SET1R_TIMEVNT8)  /*!< Timer event 8 forces the output to its active state */
-#define HRTIM_OUTPUTSET_TIMEEV9_TIMFCMP4    (HRTIM_SET1R_TIMEVNT9)  /*!< Timer event 9 forces the output to its active state */
-/* Timer Events mapping for Timer F */
-#define HRTIM_OUTPUTSET_TIMFEV1_TIMACMP3    (HRTIM_SET1R_TIMEVNT1)  /*!< Timer event 1 forces the output to its active state */
-#define HRTIM_OUTPUTSET_TIMFEV2_TIMBCMP1    (HRTIM_SET1R_TIMEVNT2)  /*!< Timer event 2 forces the output to its active state */
-#define HRTIM_OUTPUTSET_TIMFEV3_TIMBCMP4    (HRTIM_SET1R_TIMEVNT3)  /*!< Timer event 3 forces the output to its active state */
-#define HRTIM_OUTPUTSET_TIMFEV4_TIMCCMP1    (HRTIM_SET1R_TIMEVNT4)  /*!< Timer event 4 forces the output to its active state */
-#define HRTIM_OUTPUTSET_TIMFEV5_TIMCCMP4    (HRTIM_SET1R_TIMEVNT5)  /*!< Timer event 5 forces the output to its active state */
-#define HRTIM_OUTPUTSET_TIMFEV6_TIMDCMP3    (HRTIM_SET1R_TIMEVNT6)  /*!< Timer event 6 forces the output to its active state */
-#define HRTIM_OUTPUTSET_TIMFEV7_TIMDCMP4    (HRTIM_SET1R_TIMEVNT7)  /*!< Timer event 7 forces the output to its active state */
-#define HRTIM_OUTPUTSET_TIMFEV8_TIMECMP2    (HRTIM_SET1R_TIMEVNT8)  /*!< Timer event 8 forces the output to its active state */
-#define HRTIM_OUTPUTSET_TIMFEV9_TIMECMP3    (HRTIM_SET1R_TIMEVNT9)  /*!< Timer event 9 forces the output to its active state */
-
-#define HRTIM_OUTPUTSET_EEV_1      (HRTIM_SET1R_EXTVNT1)   /*!< External event 1 forces the output to its active state */
-#define HRTIM_OUTPUTSET_EEV_2      (HRTIM_SET1R_EXTVNT2)   /*!< External event 2 forces the output to its active state */
-#define HRTIM_OUTPUTSET_EEV_3      (HRTIM_SET1R_EXTVNT3)   /*!< External event 3 forces the output to its active state */
-#define HRTIM_OUTPUTSET_EEV_4      (HRTIM_SET1R_EXTVNT4)   /*!< External event 4 forces the output to its active state */
-#define HRTIM_OUTPUTSET_EEV_5      (HRTIM_SET1R_EXTVNT5)   /*!< External event 5 forces the output to its active state */
-#define HRTIM_OUTPUTSET_EEV_6      (HRTIM_SET1R_EXTVNT6)   /*!< External event 6 forces the output to its active state */
-#define HRTIM_OUTPUTSET_EEV_7      (HRTIM_SET1R_EXTVNT7)   /*!< External event 7 forces the output to its active state */
-#define HRTIM_OUTPUTSET_EEV_8      (HRTIM_SET1R_EXTVNT8)   /*!< External event 8 forces the output to its active state */
-#define HRTIM_OUTPUTSET_EEV_9      (HRTIM_SET1R_EXTVNT9)   /*!< External event 9 forces the output to its active state */
-#define HRTIM_OUTPUTSET_EEV_10     (HRTIM_SET1R_EXTVNT10)  /*!< External event 10 forces the output to its active state */
-#define HRTIM_OUTPUTSET_UPDATE     (HRTIM_SET1R_UPDATE)    /*!< Timer register update event forces the output to its active state */
+#define HRTIM_OUTPUTSET_NONE       0x00000000U                      /*!< Reset the output set crossbar */
+#define HRTIM_OUTPUTSET_RESYNC     (HRTIM_SET1R_RESYNC)             /*!< Timer reset event coming solely from software or SYNC input forces the output to its active state */
+#define HRTIM_OUTPUTSET_TIMPER     (HRTIM_SET1R_PER)                /*!< Timer period event forces the output to its active state */
+#define HRTIM_OUTPUTSET_TIMCMP1    (HRTIM_SET1R_CMP1)               /*!< Timer compare 1 event forces the output to its active state */
+#define HRTIM_OUTPUTSET_TIMCMP2    (HRTIM_SET1R_CMP2)               /*!< Timer compare 2 event forces the output to its active state */
+#define HRTIM_OUTPUTSET_TIMCMP3    (HRTIM_SET1R_CMP3)               /*!< Timer compare 3 event forces the output to its active state */
+#define HRTIM_OUTPUTSET_TIMCMP4    (HRTIM_SET1R_CMP4)               /*!< Timer compare 4 event forces the output to its active state */
+#define HRTIM_OUTPUTSET_MASTERPER  (HRTIM_SET1R_MSTPER)             /*!< The master timer period event forces the output to its active state */
+#define HRTIM_OUTPUTSET_MASTERCMP1 (HRTIM_SET1R_MSTCMP1)            /*!< Master Timer compare 1 event forces the output to its active state */
+#define HRTIM_OUTPUTSET_MASTERCMP2 (HRTIM_SET1R_MSTCMP2)            /*!< Master Timer compare 2 event forces the output to its active state */
+#define HRTIM_OUTPUTSET_MASTERCMP3 (HRTIM_SET1R_MSTCMP3)            /*!< Master Timer compare 3 event forces the output to its active state */
+#define HRTIM_OUTPUTSET_MASTERCMP4 (HRTIM_SET1R_MSTCMP4)            /*!< Master Timer compare 4 event forces the output to its active state */
+#define HRTIM_OUTPUTSET_TIMEV_1    (HRTIM_SET1R_TIMEVNT1)           /*!< Timer event 1 forces the output to its active state */
+#define HRTIM_OUTPUTSET_TIMEV_2    (HRTIM_SET1R_TIMEVNT2)           /*!< Timer event 2 forces the output to its active state */
+#define HRTIM_OUTPUTSET_TIMEV_3    (HRTIM_SET1R_TIMEVNT3)           /*!< Timer event 3 forces the output to its active state */
+#define HRTIM_OUTPUTSET_TIMEV_4    (HRTIM_SET1R_TIMEVNT4)           /*!< Timer event 4 forces the output to its active state */
+#define HRTIM_OUTPUTSET_TIMEV_5    (HRTIM_SET1R_TIMEVNT5)           /*!< Timer event 5 forces the output to its active state */
+#define HRTIM_OUTPUTSET_TIMEV_6    (HRTIM_SET1R_TIMEVNT6)           /*!< Timer event 6 forces the output to its active state */
+#define HRTIM_OUTPUTSET_TIMEV_7    (HRTIM_SET1R_TIMEVNT7)           /*!< Timer event 7 forces the output to its active state */
+#define HRTIM_OUTPUTSET_TIMEV_8    (HRTIM_SET1R_TIMEVNT8)           /*!< Timer event 8 forces the output to its active state */
+#define HRTIM_OUTPUTSET_TIMEV_9    (HRTIM_SET1R_TIMEVNT9)           /*!< Timer event 9 forces the output to its active state */
+#define HRTIM_OUTPUTSET_EEV_1      (HRTIM_SET1R_EXTVNT1)            /*!< External event 1 forces the output to its active state */
+#define HRTIM_OUTPUTSET_EEV_2      (HRTIM_SET1R_EXTVNT2)            /*!< External event 2 forces the output to its active state */
+#define HRTIM_OUTPUTSET_EEV_3      (HRTIM_SET1R_EXTVNT3)            /*!< External event 3 forces the output to its active state */
+#define HRTIM_OUTPUTSET_EEV_4      (HRTIM_SET1R_EXTVNT4)            /*!< External event 4 forces the output to its active state */
+#define HRTIM_OUTPUTSET_EEV_5      (HRTIM_SET1R_EXTVNT5)            /*!< External event 5 forces the output to its active state */
+#define HRTIM_OUTPUTSET_EEV_6      (HRTIM_SET1R_EXTVNT6)            /*!< External event 6 forces the output to its active state */
+#define HRTIM_OUTPUTSET_EEV_7      (HRTIM_SET1R_EXTVNT7)            /*!< External event 7 forces the output to its active state */
+#define HRTIM_OUTPUTSET_EEV_8      (HRTIM_SET1R_EXTVNT8)            /*!< External event 8 forces the output to its active state */
+#define HRTIM_OUTPUTSET_EEV_9      (HRTIM_SET1R_EXTVNT9)            /*!< External event 9 forces the output to its active state */
+#define HRTIM_OUTPUTSET_EEV_10     (HRTIM_SET1R_EXTVNT10)           /*!< External event 10 forces the output to its active state */
+#define HRTIM_OUTPUTSET_UPDATE     (HRTIM_SET1R_UPDATE)             /*!< Timer register update event forces the output to its active state */
 /**
   * @}
   */
@@ -1038,90 +1002,38 @@ typedef void (* pHRTIM_TIMxCallbackTypeDef)(HRTIM_HandleTypeDef *hhrtim,    /*!<
   * @brief Constants defining the events that can be selected to configure the
   *        set crossbar of a timer output
   */
-#define HRTIM_OUTPUTRESET_NONE       0x00000000U             /*!< Reset the output reset crossbar */
-#define HRTIM_OUTPUTRESET_RESYNC     (HRTIM_RST1R_RESYNC)    /*!< Timer reset event coming solely from software or SYNC input forces the output to its inactive state */
-#define HRTIM_OUTPUTRESET_TIMPER     (HRTIM_RST1R_PER)       /*!< Timer period event forces the output to its inactive state */
-#define HRTIM_OUTPUTRESET_TIMCMP1    (HRTIM_RST1R_CMP1)      /*!< Timer compare 1 event forces the output to its inactive state */
-#define HRTIM_OUTPUTRESET_TIMCMP2    (HRTIM_RST1R_CMP2)      /*!< Timer compare 2 event forces the output to its inactive state */
-#define HRTIM_OUTPUTRESET_TIMCMP3    (HRTIM_RST1R_CMP3)      /*!< Timer compare 3 event forces the output to its inactive state */
-#define HRTIM_OUTPUTRESET_TIMCMP4    (HRTIM_RST1R_CMP4)      /*!< Timer compare 4 event forces the output to its inactive state */
-#define HRTIM_OUTPUTRESET_MASTERPER  (HRTIM_RST1R_MSTPER)    /*!< The master timer period event forces the output to its inactive state */
-#define HRTIM_OUTPUTRESET_MASTERCMP1 (HRTIM_RST1R_MSTCMP1)   /*!< Master Timer compare 1 event forces the output to its inactive state */
-#define HRTIM_OUTPUTRESET_MASTERCMP2 (HRTIM_RST1R_MSTCMP2)   /*!< Master Timer compare 2 event forces the output to its inactive state */
-#define HRTIM_OUTPUTRESET_MASTERCMP3 (HRTIM_RST1R_MSTCMP3)   /*!< Master Timer compare 3 event forces the output to its inactive state */
-#define HRTIM_OUTPUTRESET_MASTERCMP4 (HRTIM_RST1R_MSTCMP4)   /*!< Master Timer compare 4 event forces the output to its inactive state */
-/* Timer Events mapping for Timer A */
-#define HRTIM_OUTPUTRESET_TIMAEV1_TIMBCMP1    (HRTIM_RST1R_TIMEVNT1)  /*!< Timer event 1 forces the output to its inactive state */
-#define HRTIM_OUTPUTRESET_TIMAEV2_TIMBCMP2    (HRTIM_RST1R_TIMEVNT2)  /*!< Timer event 2 forces the output to its inactive state */
-#define HRTIM_OUTPUTRESET_TIMAEV3_TIMCCMP2    (HRTIM_RST1R_TIMEVNT3)  /*!< Timer event 3 forces the output to its inactive state */
-#define HRTIM_OUTPUTRESET_TIMAEV4_TIMCCMP3    (HRTIM_RST1R_TIMEVNT4)  /*!< Timer event 4 forces the output to its inactive state */
-#define HRTIM_OUTPUTRESET_TIMAEV5_TIMDCMP1    (HRTIM_RST1R_TIMEVNT5)  /*!< Timer event 5 forces the output to its inactive state */
-#define HRTIM_OUTPUTRESET_TIMAEV6_TIMDCMP2    (HRTIM_RST1R_TIMEVNT6)  /*!< Timer event 6 forces the output to its inactive state */
-#define HRTIM_OUTPUTRESET_TIMAEV7_TIMECMP3    (HRTIM_RST1R_TIMEVNT7)  /*!< Timer event 7 forces the output to its inactive state */
-#define HRTIM_OUTPUTRESET_TIMAEV8_TIMECMP4    (HRTIM_RST1R_TIMEVNT8)  /*!< Timer event 8 forces the output to its inactive state */
-#define HRTIM_OUTPUTRESET_TIMAEV9_TIMFCMP4    (HRTIM_RST1R_TIMEVNT9)  /*!< Timer event 9 forces the output to its inactive state */
-/* Timer Events mapping for Timer B */
-#define HRTIM_OUTPUTRESET_TIMBEV1_TIMACMP1    (HRTIM_RST1R_TIMEVNT1)  /*!< Timer event 1 forces the output to its inactive state */
-#define HRTIM_OUTPUTRESET_TIMBEV2_TIMACMP2    (HRTIM_RST1R_TIMEVNT2)  /*!< Timer event 2 forces the output to its inactive state */
-#define HRTIM_OUTPUTRESET_TIMBEV3_TIMCCMP3    (HRTIM_RST1R_TIMEVNT3)  /*!< Timer event 3 forces the output to its inactive state */
-#define HRTIM_OUTPUTRESET_TIMBEV4_TIMCCMP4    (HRTIM_RST1R_TIMEVNT4)  /*!< Timer event 4 forces the output to its inactive state */
-#define HRTIM_OUTPUTRESET_TIMBEV5_TIMDCMP3    (HRTIM_RST1R_TIMEVNT5)  /*!< Timer event 5 forces the output to its inactive state */
-#define HRTIM_OUTPUTRESET_TIMBEV6_TIMDCMP4    (HRTIM_RST1R_TIMEVNT6)  /*!< Timer event 6 forces the output to its inactive state */
-#define HRTIM_OUTPUTRESET_TIMBEV7_TIMECMP1    (HRTIM_RST1R_TIMEVNT7)  /*!< Timer event 7 forces the output to its inactive state */
-#define HRTIM_OUTPUTRESET_TIMBEV8_TIMECMP2    (HRTIM_RST1R_TIMEVNT8)  /*!< Timer event 8 forces the output to its inactive state */
-#define HRTIM_OUTPUTRESET_TIMBEV9_TIMFCMP3    (HRTIM_RST1R_TIMEVNT9)  /*!< Timer event 9 forces the output to its inactive state */
-/* Timer Events mapping for Timer C */
-#define HRTIM_OUTPUTRESET_TIMCEV1_TIMACMP1    (HRTIM_RST1R_TIMEVNT1)  /*!< Timer event 1 forces the output to its inactive state */
-#define HRTIM_OUTPUTRESET_TIMCEV2_TIMACMP2    (HRTIM_RST1R_TIMEVNT2)  /*!< Timer event 2 forces the output to its inactive state */
-#define HRTIM_OUTPUTRESET_TIMCEV3_TIMBCMP2    (HRTIM_RST1R_TIMEVNT3)  /*!< Timer event 3 forces the output to its inactive state */
-#define HRTIM_OUTPUTRESET_TIMCEV4_TIMBCMP3    (HRTIM_RST1R_TIMEVNT4)  /*!< Timer event 4 forces the output to its inactive state */
-#define HRTIM_OUTPUTRESET_TIMCEV5_TIMDCMP2    (HRTIM_RST1R_TIMEVNT5)  /*!< Timer event 5 forces the output to its inactive state */
-#define HRTIM_OUTPUTRESET_TIMCEV6_TIMDCMP4    (HRTIM_RST1R_TIMEVNT6)  /*!< Timer event 6 forces the output to its inactive state */
-#define HRTIM_OUTPUTRESET_TIMCEV7_TIMECMP3    (HRTIM_RST1R_TIMEVNT7)  /*!< Timer event 7 forces the output to its inactive state */
-#define HRTIM_OUTPUTRESET_TIMCEV8_TIMECMP4    (HRTIM_RST1R_TIMEVNT8)  /*!< Timer event 8 forces the output to its inactive state */
-#define HRTIM_OUTPUTRESET_TIMCEV9_TIMFCMP2    (HRTIM_RST1R_TIMEVNT9)  /*!< Timer event 9 forces the output to its inactive state */
-/* Timer Events mapping for Timer D */
-#define HRTIM_OUTPUTRESET_TIMDEV1_TIMACMP1    (HRTIM_RST1R_TIMEVNT1)  /*!< Timer event 1 forces the output to its inactive state */
-#define HRTIM_OUTPUTRESET_TIMDEV2_TIMACMP4    (HRTIM_RST1R_TIMEVNT2)  /*!< Timer event 2 forces the output to its inactive state */
-#define HRTIM_OUTPUTRESET_TIMDEV3_TIMBCMP2    (HRTIM_RST1R_TIMEVNT3)  /*!< Timer event 3 forces the output to its inactive state */
-#define HRTIM_OUTPUTRESET_TIMDEV4_TIMBCMP4    (HRTIM_RST1R_TIMEVNT4)  /*!< Timer event 4 forces the output to its inactive state */
-#define HRTIM_OUTPUTRESET_TIMDEV5_TIMCCMP4    (HRTIM_RST1R_TIMEVNT5)  /*!< Timer event 5 forces the output to its inactive state */
-#define HRTIM_OUTPUTRESET_TIMDEV6_TIMECMP1    (HRTIM_RST1R_TIMEVNT6)  /*!< Timer event 6 forces the output to its inactive state */
-#define HRTIM_OUTPUTRESET_TIMDEV7_TIMECMP4    (HRTIM_RST1R_TIMEVNT7)  /*!< Timer event 7 forces the output to its inactive state */
-#define HRTIM_OUTPUTRESET_TIMDEV8_TIMFCMP1    (HRTIM_RST1R_TIMEVNT8)  /*!< Timer event 8 forces the output to its inactive state */
-#define HRTIM_OUTPUTRESET_TIMDEV9_TIMFCMP3    (HRTIM_RST1R_TIMEVNT9)  /*!< Timer event 9 forces the output to its inactive state */
-/* Timer Events mapping for Timer E */
-#define HRTIM_OUTPUTRESET_TIMEEV1_TIMACMP4    (HRTIM_RST1R_TIMEVNT1)  /*!< Timer event 1 forces the output to its inactive state */
-#define HRTIM_OUTPUTRESET_TIMEEV2_TIMBCMP3    (HRTIM_RST1R_TIMEVNT2)  /*!< Timer event 2 forces the output to its inactive state */
-#define HRTIM_OUTPUTRESET_TIMEEV3_TIMBCMP4    (HRTIM_RST1R_TIMEVNT3)  /*!< Timer event 3 forces the output to its inactive state */
-#define HRTIM_OUTPUTRESET_TIMEEV4_TIMCCMP1    (HRTIM_RST1R_TIMEVNT4)  /*!< Timer event 4 forces the output to its inactive state */
-#define HRTIM_OUTPUTRESET_TIMEEV5_TIMDCMP2    (HRTIM_RST1R_TIMEVNT5)  /*!< Timer event 5 forces the output to its inactive state */
-#define HRTIM_OUTPUTRESET_TIMEEV6_TIMDCMP1    (HRTIM_RST1R_TIMEVNT6)  /*!< Timer event 6 forces the output to its inactive state */
-#define HRTIM_OUTPUTRESET_TIMEEV7_TIMDCMP2    (HRTIM_RST1R_TIMEVNT7)  /*!< Timer event 7 forces the output to its inactive state */
-#define HRTIM_OUTPUTRESET_TIMEEV8_TIMFCMP3    (HRTIM_RST1R_TIMEVNT8)  /*!< Timer event 8 forces the output to its inactive state */
-#define HRTIM_OUTPUTRESET_TIMEEV9_TIMFCMP4    (HRTIM_RST1R_TIMEVNT9)  /*!< Timer event 9 forces the output to its inactive state */
-/* Timer Events mapping for Timer F */
-#define HRTIM_OUTPUTRESET_TIMFEV1_TIMACMP3    (HRTIM_RST1R_TIMEVNT1)  /*!< Timer event 1 forces the output to its inactive state */
-#define HRTIM_OUTPUTRESET_TIMFEV2_TIMBCMP1    (HRTIM_RST1R_TIMEVNT2)  /*!< Timer event 2 forces the output to its inactive state */
-#define HRTIM_OUTPUTRESET_TIMFEV3_TIMBCMP4    (HRTIM_RST1R_TIMEVNT3)  /*!< Timer event 3 forces the output to its inactive state */
-#define HRTIM_OUTPUTRESET_TIMFEV4_TIMCCMP1    (HRTIM_RST1R_TIMEVNT4)  /*!< Timer event 4 forces the output to its inactive state */
-#define HRTIM_OUTPUTRESET_TIMFEV5_TIMCCMP4    (HRTIM_RST1R_TIMEVNT5)  /*!< Timer event 5 forces the output to its inactive state */
-#define HRTIM_OUTPUTRESET_TIMFEV6_TIMDCMP3    (HRTIM_RST1R_TIMEVNT6)  /*!< Timer event 6 forces the output to its inactive state */
-#define HRTIM_OUTPUTRESET_TIMFEV7_TIMDCMP4    (HRTIM_RST1R_TIMEVNT7)  /*!< Timer event 7 forces the output to its inactive state */
-#define HRTIM_OUTPUTRESET_TIMFEV8_TIMECMP2    (HRTIM_RST1R_TIMEVNT8)  /*!< Timer event 8 forces the output to its inactive state */
-#define HRTIM_OUTPUTRESET_TIMFEV9_TIMECMP3    (HRTIM_RST1R_TIMEVNT9)  /*!< Timer event 9 forces the output to its inactive state */
-
-#define HRTIM_OUTPUTRESET_EEV_1      (HRTIM_RST1R_EXTVNT1)   /*!< External event 1 forces the output to its inactive state */
-#define HRTIM_OUTPUTRESET_EEV_2      (HRTIM_RST1R_EXTVNT2)   /*!< External event 2 forces the output to its inactive state */
-#define HRTIM_OUTPUTRESET_EEV_3      (HRTIM_RST1R_EXTVNT3)   /*!< External event 3 forces the output to its inactive state */
-#define HRTIM_OUTPUTRESET_EEV_4      (HRTIM_RST1R_EXTVNT4)   /*!< External event 4 forces the output to its inactive state */
-#define HRTIM_OUTPUTRESET_EEV_5      (HRTIM_RST1R_EXTVNT5)   /*!< External event 5 forces the output to its inactive state */
-#define HRTIM_OUTPUTRESET_EEV_6      (HRTIM_RST1R_EXTVNT6)   /*!< External event 6 forces the output to its inactive state */
-#define HRTIM_OUTPUTRESET_EEV_7      (HRTIM_RST1R_EXTVNT7)   /*!< External event 7 forces the output to its inactive state */
-#define HRTIM_OUTPUTRESET_EEV_8      (HRTIM_RST1R_EXTVNT8)   /*!< External event 8 forces the output to its inactive state */
-#define HRTIM_OUTPUTRESET_EEV_9      (HRTIM_RST1R_EXTVNT9)   /*!< External event 9 forces the output to its inactive state */
-#define HRTIM_OUTPUTRESET_EEV_10     (HRTIM_RST1R_EXTVNT10)  /*!< External event 10 forces the output to its inactive state */
-#define HRTIM_OUTPUTRESET_UPDATE     (HRTIM_RST1R_UPDATE)    /*!< Timer register update event forces the output to its inactive state */
+#define HRTIM_OUTPUTRESET_NONE       0x00000000U                      /*!< Reset the output reset crossbar */
+#define HRTIM_OUTPUTRESET_RESYNC     (HRTIM_RST1R_RESYNC)             /*!< Timer reset event coming solely from software or SYNC input forces the output to its inactive state */
+#define HRTIM_OUTPUTRESET_TIMPER     (HRTIM_RST1R_PER)                /*!< Timer period event forces the output to its inactive state */
+#define HRTIM_OUTPUTRESET_TIMCMP1    (HRTIM_RST1R_CMP1)               /*!< Timer compare 1 event forces the output to its inactive state */
+#define HRTIM_OUTPUTRESET_TIMCMP2    (HRTIM_RST1R_CMP2)               /*!< Timer compare 2 event forces the output to its inactive state */
+#define HRTIM_OUTPUTRESET_TIMCMP3    (HRTIM_RST1R_CMP3)               /*!< Timer compare 3 event forces the output to its inactive state */
+#define HRTIM_OUTPUTRESET_TIMCMP4    (HRTIM_RST1R_CMP4)               /*!< Timer compare 4 event forces the output to its inactive state */
+#define HRTIM_OUTPUTRESET_MASTERPER  (HRTIM_RST1R_MSTPER)             /*!< The master timer period event forces the output to its inactive state */
+#define HRTIM_OUTPUTRESET_MASTERCMP1 (HRTIM_RST1R_MSTCMP1)            /*!< Master Timer compare 1 event forces the output to its inactive state */
+#define HRTIM_OUTPUTRESET_MASTERCMP2 (HRTIM_RST1R_MSTCMP2)            /*!< Master Timer compare 2 event forces the output to its inactive state */
+#define HRTIM_OUTPUTRESET_MASTERCMP3 (HRTIM_RST1R_MSTCMP3)            /*!< Master Timer compare 3 event forces the output to its inactive state */
+#define HRTIM_OUTPUTRESET_MASTERCMP4 (HRTIM_RST1R_MSTCMP4)            /*!< Master Timer compare 4 event forces the output to its inactive state */
+#define HRTIM_OUTPUTRESET_TIMEV_1    (HRTIM_SET1R_TIMEVNT1)           /*!< Timer event 1 forces the output to its active state */
+#define HRTIM_OUTPUTRESET_TIMEV_2    (HRTIM_SET1R_TIMEVNT2)           /*!< Timer event 2 forces the output to its active state */
+#define HRTIM_OUTPUTRESET_TIMEV_3    (HRTIM_SET1R_TIMEVNT3)           /*!< Timer event 3 forces the output to its active state */
+#define HRTIM_OUTPUTRESET_TIMEV_4    (HRTIM_SET1R_TIMEVNT4)           /*!< Timer event 4 forces the output to its active state */
+#define HRTIM_OUTPUTRESET_TIMEV_5    (HRTIM_SET1R_TIMEVNT5)           /*!< Timer event 5 forces the output to its active state */
+#define HRTIM_OUTPUTRESET_TIMEV_6    (HRTIM_SET1R_TIMEVNT6)           /*!< Timer event 6 forces the output to its active state */
+#define HRTIM_OUTPUTRESET_TIMEV_7    (HRTIM_SET1R_TIMEVNT7)           /*!< Timer event 7 forces the output to its active state */
+#define HRTIM_OUTPUTRESET_TIMEV_8    (HRTIM_SET1R_TIMEVNT8)           /*!< Timer event 8 forces the output to its active state */
+#define HRTIM_OUTPUTRESET_TIMEV_9    (HRTIM_SET1R_TIMEVNT9)           /*!< Timer event 9 forces the output to its active state */
+#define HRTIM_OUTPUTRESET_EEV_1      (HRTIM_RST1R_EXTVNT1)            /*!< External event 1 forces the output to its inactive state */
+#define HRTIM_OUTPUTRESET_EEV_2      (HRTIM_RST1R_EXTVNT2)            /*!< External event 2 forces the output to its inactive state */
+#define HRTIM_OUTPUTRESET_EEV_3      (HRTIM_RST1R_EXTVNT3)            /*!< External event 3 forces the output to its inactive state */
+#define HRTIM_OUTPUTRESET_EEV_4      (HRTIM_RST1R_EXTVNT4)            /*!< External event 4 forces the output to its inactive state */
+#define HRTIM_OUTPUTRESET_EEV_5      (HRTIM_RST1R_EXTVNT5)            /*!< External event 5 forces the output to its inactive state */
+#define HRTIM_OUTPUTRESET_EEV_6      (HRTIM_RST1R_EXTVNT6)            /*!< External event 6 forces the output to its inactive state */
+#define HRTIM_OUTPUTRESET_EEV_7      (HRTIM_RST1R_EXTVNT7)            /*!< External event 7 forces the output to its inactive state */
+#define HRTIM_OUTPUTRESET_EEV_8      (HRTIM_RST1R_EXTVNT8)            /*!< External event 8 forces the output to its inactive state */
+#define HRTIM_OUTPUTRESET_EEV_9      (HRTIM_RST1R_EXTVNT9)            /*!< External event 9 forces the output to its inactive state */
+#define HRTIM_OUTPUTRESET_EEV_10     (HRTIM_RST1R_EXTVNT10)           /*!< External event 10 forces the output to its inactive state */
+#define HRTIM_OUTPUTRESET_UPDATE     (HRTIM_RST1R_UPDATE)             /*!< Timer register update event forces the output to its inactive state */
 /**
   * @}
   */
@@ -1684,7 +1596,7 @@ typedef void (* pHRTIM_TIMxCallbackTypeDef)(HRTIM_HandleTypeDef *hhrtim,    /*!<
 
 /** @defgroup HRTIM_Burst_Mode_Trigger HRTIM Burst Mode Trigger
   * @{
-  * @brief Constants defining the events that can be used tor trig the burst
+  * @brief Constants defining the events that can be used to trig the burst
   *        mode operation
   */
 #define HRTIM_BURSTMODETRIGGER_NONE               0x00000000U             /*!<  No trigger */
@@ -2099,7 +2011,7 @@ typedef void (* pHRTIM_TIMxCallbackTypeDef)(HRTIM_HandleTypeDef *hhrtim,    /*!<
   */
 
   /* Private macros --------------------------------------------------------*/
-/** @addtogroup HRTIM_Private_Macros HRTIM Private Macros
+/** @addtogroup HRTIM_Private_Macros
   * @{
   */
 #define IS_HRTIM_TIMERINDEX(TIMERINDEX)\

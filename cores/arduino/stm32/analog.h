@@ -44,18 +44,16 @@
 #include "PeripheralPins.h"
 
 #ifdef __cplusplus
- extern "C" {
+extern "C" {
 #endif
 
-/* Exported types ------------------------------------------------------------*/
-/* Exported constants --------------------------------------------------------*/
-/* Exported macro ------------------------------------------------------------*/
 /* Exported functions ------------------------------------------------------- */
 void dac_write_value(PinName pin, uint32_t value, uint8_t do_init);
 void dac_stop(PinName pin);
 uint16_t adc_read_value(PinName pin);
-void pwm_start(PinName pin, uint32_t clock_freq, uint32_t period, uint32_t value, uint8_t do_init);
+void pwm_start(PinName pin, uint32_t clock_freq, uint32_t value);
 void pwm_stop(PinName pin);
+uint32_t get_pwm_channel(PinName pin);
 
 #ifdef __cplusplus
 }

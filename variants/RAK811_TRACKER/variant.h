@@ -31,19 +31,13 @@
 #ifndef _VARIANT_ARDUINO_STM32_
 #define _VARIANT_ARDUINO_STM32_
 
-/*----------------------------------------------------------------------------
- *        Headers
- *----------------------------------------------------------------------------*/
-#include "PeripheralPins.h"
-
 #ifdef __cplusplus
-extern "C"{
+extern "C" {
 #endif // __cplusplus
 
 /*----------------------------------------------------------------------------
  *        Pins
  *----------------------------------------------------------------------------*/
-extern const PinName digitalPin[];
 
 #define PA0  0  // GPS_PPS_PIN
 #define PA8  1
@@ -103,11 +97,9 @@ extern const PinName digitalPin[];
 #define PIN_WIRE_SCL            PB8
 
 // Timer Definitions
-// Do not use timer used by PWM pins when possible. See PinMap_PWM.
-#define TIMER_TONE              TIM10
-
-// Do not use basic timer: OC is required
-#define TIMER_SERVO             TIM2  //TODO: advanced-control timers don't work
+// Use TIM6/TIM7 when possible as servo and tone don't need GPIO output pin
+#define TIMER_TONE              TIM6
+#define TIMER_SERVO             TIM7
 
 // UART Definitions
 #define SERIAL_UART_INSTANCE    1
@@ -143,8 +135,11 @@ extern const PinName digitalPin[];
 #define GPS_UART_RX             PB11
 
 // MEMS (LIS3DH)
-#define LIS3DH_INT1_PIN	        PB14
-#define LIS3DH_INT2_PIN	        PB15
+#define LIS3DH_INT1_PIN         PB14
+#define LIS3DH_INT2_PIN         PB15
+
+/* HAL configuration */
+#define HSE_VALUE               12000000U
 
 #ifdef __cplusplus
 } // extern "C"

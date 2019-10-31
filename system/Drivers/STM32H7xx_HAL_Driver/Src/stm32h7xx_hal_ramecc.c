@@ -134,7 +134,7 @@ HAL_StatusTypeDef HAL_RAMECC_Init(RAMECC_HandleTypeDef *hramecc)
   hramecc->Instance->CR &= ~RAMECC_CR_ECCELEN;
 
   /* Disable all global interrupts */
-  ((RAMECC_TypeDef *)((uint32_t)&hramecc->Instance & 0xFFFFFF00U))->IER &= \
+  ((RAMECC_TypeDef *)((uint32_t)hramecc->Instance & 0xFFFFFF00U))->IER &= \
     ~(RAMECC_IER_GIE | RAMECC_IER_GECCSEIE | RAMECC_IER_GECCDEIE | RAMECC_IER_GECCDEBWIE);
 
   /* Disable all interrupts monitor  */
@@ -175,7 +175,7 @@ HAL_StatusTypeDef HAL_RAMECC_DeInit(RAMECC_HandleTypeDef *hramecc)
   hramecc->Instance->CR &= ~RAMECC_CR_ECCELEN;
 
   /* Disable all global interrupts */
-  ((RAMECC_TypeDef *)((uint32_t)&hramecc->Instance & 0xFFFFFF00U))->IER &= \
+  ((RAMECC_TypeDef *)((uint32_t)hramecc->Instance & 0xFFFFFF00U))->IER &= \
     ~(RAMECC_IER_GIE | RAMECC_IER_GECCSEIE | RAMECC_IER_GECCDEIE | RAMECC_IER_GECCDEBWIE);
 
   /* Disable all interrupts monitor  */
@@ -294,10 +294,10 @@ HAL_StatusTypeDef HAL_RAMECC_StopMonitor(RAMECC_HandleTypeDef *hramecc)
   * @param  hramecc       Pointer to a RAMECC_HandleTypeDef structure that contains
   *                       the configuration information for the specified RAMECC
   *                       Monitor.
-  * @param  Noftications  Select the notification.
+  * @param  Notifications  Select the notification.
   * @retval HAL status.
   */
-HAL_StatusTypeDef HAL_RAMECC_EnableNotifiaction(RAMECC_HandleTypeDef *hramecc, uint32_t Noftications)
+HAL_StatusTypeDef HAL_RAMECC_EnableNotification(RAMECC_HandleTypeDef *hramecc, uint32_t Notifications)
 {
   /* Check the RAMECC peripheral handle */
   if(hramecc == NULL)
@@ -310,12 +310,12 @@ HAL_StatusTypeDef HAL_RAMECC_EnableNotifiaction(RAMECC_HandleTypeDef *hramecc, u
 
   /* Check the parameters */
   assert_param(IS_RAMECC_MONITOR_ALL_INSTANCE(hramecc->Instance));
-  assert_param(IS_RAMECC_INTERRUPT(Noftications));
+  assert_param(IS_RAMECC_INTERRUPT(Notifications));
 
   if((state == HAL_RAMECC_STATE_READY) || (state == HAL_RAMECC_STATE_BUSY))
   {
     /* Enable RAMECC interrupts */
-    __HAL_RAMECC_ENABLE_IT(hramecc, Noftications);
+    __HAL_RAMECC_ENABLE_IT(hramecc, Notifications);
   }
   else
   {
@@ -334,10 +334,10 @@ HAL_StatusTypeDef HAL_RAMECC_EnableNotifiaction(RAMECC_HandleTypeDef *hramecc, u
   * @param  hramecc       Pointer to a RAMECC_HandleTypeDef structure that contains
   *                       the configuration information for the specified RAMECC
   *                       Monitor.
-  * @param  Noftications  Select the notification.
+  * @param  Notifications  Select the notification.
   * @retval HAL status.
   */
-HAL_StatusTypeDef HAL_RAMECC_DisableNotifiaction(RAMECC_HandleTypeDef *hramecc, uint32_t Noftications)
+HAL_StatusTypeDef HAL_RAMECC_DisableNotification(RAMECC_HandleTypeDef *hramecc, uint32_t Notifications)
 {
   /* Check the RAMECC peripheral handle */
   if(hramecc == NULL)
@@ -350,12 +350,12 @@ HAL_StatusTypeDef HAL_RAMECC_DisableNotifiaction(RAMECC_HandleTypeDef *hramecc, 
 
   /* Check the parameters */
   assert_param(IS_RAMECC_MONITOR_ALL_INSTANCE(hramecc->Instance));
-  assert_param(IS_RAMECC_INTERRUPT(Noftications));
+  assert_param(IS_RAMECC_INTERRUPT(Notifications));
 
   if((state == HAL_RAMECC_STATE_READY) || (state == HAL_RAMECC_STATE_BUSY))
   {
     /* Disable RAMECC interrupts */
-    __HAL_RAMECC_DISABLE_IT(hramecc, Noftications);
+    __HAL_RAMECC_DISABLE_IT(hramecc, Notifications);
   }
   else
   {

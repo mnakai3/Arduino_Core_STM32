@@ -19,11 +19,6 @@
 #ifndef _VARIANT_ARDUINO_STM32_
 #define _VARIANT_ARDUINO_STM32_
 
-/*----------------------------------------------------------------------------
- *        Headers
- *----------------------------------------------------------------------------*/
-#include "PeripheralPins.h"
-
 #ifdef __cplusplus
 extern "C"{
 #endif // __cplusplus
@@ -34,8 +29,6 @@ extern "C"{
 
 #define PINNAME_TO_PIN(port, pin) ((port - 'A') * 16 + pin)
 	
-extern const PinName digitalPin[];
-
 // This must be a literal
 #define NUM_DIGITAL_PINS        (51+NUM_ANALOG_INPUTS)
 // This must be a literal with a value less than or equal to to MAX_ANALOG_INPUTS

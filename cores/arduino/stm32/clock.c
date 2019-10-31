@@ -35,11 +35,12 @@
   *
   ******************************************************************************
   */
+#include "backup.h"
 #include "clock.h"
 #include "stm32yyxx_ll_cortex.h"
 
 #ifdef __cplusplus
- extern "C" {
+extern "C" {
 #endif
 
 /**
@@ -47,17 +48,18 @@
   * @param  None
   * @retval None
   */
-uint32_t GetCurrentMicro(void)
+uint32_t getCurrentMicros(void)
 {
   /* Ensure COUNTFLAG is reset by reading SysTick control and status register */
   LL_SYSTICK_IsActiveCounterFlag();
   uint32_t m = HAL_GetTick();
-  uint32_t u = SysTick->LOAD - SysTick->VAL;
-  if(LL_SYSTICK_IsActiveCounterFlag()) {
+  const uint32_t tms = SysTick->LOAD + 1;
+  __IO uint32_t u = tms - SysTick->VAL;
+  if (LL_SYSTICK_IsActiveCounterFlag()) {
     m = HAL_GetTick();
-    u = SysTick->LOAD - SysTick->VAL;
+    u = tms - SysTick->VAL;
   }
-  return ( m * 1000 + (u * 1000) / SysTick->LOAD);
+  return (m * 1000 + (u * 1000) / tms);
 }
 
 /**
@@ -65,18 +67,19 @@ uint32_t GetCurrentMicro(void)
   * @param  None
   * @retval None
   */
-uint32_t GetCurrentMilli(void)
+uint32_t getCurrentMillis(void)
 {
   return HAL_GetTick();
 }
 
-void noOsSystickHandler(){
+void noOsSystickHandler()
+{
 
 }
 
 void osSystickHandler() __attribute__((weak, alias("noOsSystickHandler")));
 /**
-  * @brief  Function called when t he tick interruption falls
+  * @brief  Function called when the tick interruption falls
   * @param  None
   * @retval None
   */
@@ -97,32 +100,29 @@ void enableClock(sourceClock_t source)
   RCC_OscInitTypeDef RCC_OscInitStruct = {0};
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
 
-  switch(source) {
+  enableBackupDomain();
+
+  switch (source) {
     case LSI_CLOCK:
-      if(__HAL_RCC_GET_FLAG(RCC_FLAG_LSIRDY) == RESET) {
+#ifdef STM32WBxx
+      if (__HAL_RCC_GET_FLAG(RCC_FLAG_LSI1RDY) == RESET) {
+        RCC_OscInitStruct.OscillatorType =  RCC_OSCILLATORTYPE_LSI1;
+#else
+      if (__HAL_RCC_GET_FLAG(RCC_FLAG_LSIRDY) == RESET) {
         RCC_OscInitStruct.OscillatorType =  RCC_OSCILLATORTYPE_LSI;
+#endif
         RCC_OscInitStruct.LSIState = RCC_LSI_ON;
       }
       break;
     case HSI_CLOCK:
-      if(__HAL_RCC_GET_FLAG(RCC_FLAG_HSIRDY) == RESET) {
+      if (__HAL_RCC_GET_FLAG(RCC_FLAG_HSIRDY) == RESET) {
         RCC_OscInitStruct.OscillatorType =  RCC_OSCILLATORTYPE_HSI;
         RCC_OscInitStruct.HSIState = RCC_HSI_ON;
         RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
       }
       break;
     case LSE_CLOCK:
-      /* Enable Power Clock */
-#ifndef STM32H7xx
-      if(__HAL_RCC_PWR_IS_CLK_DISABLED()) {
-        __HAL_RCC_PWR_CLK_ENABLE();
-      }
-#endif
-#ifdef HAL_PWR_MODULE_ENABLED
-      /* Allow access to Backup domain */
-      HAL_PWR_EnableBkUpAccess();
-#endif
-      if(__HAL_RCC_GET_FLAG(RCC_FLAG_LSERDY) == RESET) {
+      if (__HAL_RCC_GET_FLAG(RCC_FLAG_LSERDY) == RESET) {
 #ifdef __HAL_RCC_LSEDRIVE_CONFIG
         __HAL_RCC_LSEDRIVE_CONFIG(RCC_LSEDRIVE_LOW);
 #endif
@@ -131,7 +131,7 @@ void enableClock(sourceClock_t source)
       }
       break;
     case HSE_CLOCK:
-      if(__HAL_RCC_GET_FLAG(RCC_FLAG_HSERDY) == RESET) {
+      if (__HAL_RCC_GET_FLAG(RCC_FLAG_HSERDY) == RESET) {
         RCC_OscInitStruct.OscillatorType =  RCC_OSCILLATORTYPE_HSE;
         RCC_OscInitStruct.HSEState = RCC_HSE_ON;
       }
@@ -140,8 +140,8 @@ void enableClock(sourceClock_t source)
       /* No valid clock to enable */
       break;
   }
-  if(RCC_OscInitStruct.OscillatorType != RCC_OSCILLATORTYPE_NONE) {
-    if(HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK) {
+  if (RCC_OscInitStruct.OscillatorType != RCC_OSCILLATORTYPE_NONE) {
+    if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK) {
       Error_Handler();
     }
   }

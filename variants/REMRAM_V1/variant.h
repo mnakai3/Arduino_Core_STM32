@@ -31,20 +31,14 @@
 #ifndef _VARIANT_ARDUINO_STM32_
 #define _VARIANT_ARDUINO_STM32_
 
-/*----------------------------------------------------------------------------
- *        Headers
- *----------------------------------------------------------------------------*/
-#include "PeripheralPins.h"
-
 #ifdef __cplusplus
 extern "C"
 {
 #endif // __cplusplus
 
-  /*----------------------------------------------------------------------------
- *        Pins
- *----------------------------------------------------------------------------*/
-  extern const PinName digitalPin[];
+/*----------------------------------------------------------------------------
+*        Pins
+*----------------------------------------------------------------------------*/
 
 // USART
 #define PA10 0  // RX
@@ -161,12 +155,9 @@ extern "C"
 #define LED_BUILTIN LED_YELLOW
 
 // Timer Definitions
-
-// Do not use timer used by PWM pins when possible. See PinMap_PWM.
+// Use TIM6/TIM7 when possible as servo and tone don't need GPIO output pin
 #define TIMER_TONE TIM6
-
-// Do not use basic timer: OC is required
-#define TIMER_SERVO TIM3 //TODO: advanced-control timers don't work
+#define TIMER_SERVO TIM7
 
 // UART Definitions
 #define SERIAL_UART_INSTANCE 1
@@ -178,6 +169,9 @@ extern "C"
 // Default pin used for 'Serial' instance
 #define PIN_SERIAL_RX 0
 #define PIN_SERIAL_TX 1
+
+/* HAL configuration */
+#define HSE_VALUE               24000000U
 
 #ifdef __cplusplus
 } // extern "C"
