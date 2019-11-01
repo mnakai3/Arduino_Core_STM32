@@ -27,6 +27,7 @@ WioLTE.menu.Debug.Enabled=DebugON
 WioLTE.menu.Debug.Enabled.build.debug_print=-O0 -DWIO_DEBUG
 
 WioLTE.upload.tool=stm32flash
+WioLTE.upload.protocol=dfu
 WioLTE.upload.maximum_size=1048576
 WioLTE.upload.maximum_data_size=196608
 WioLTE.upload.altID=0
@@ -56,6 +57,7 @@ Wio3G.menu.Debug.Enabled=DebugON
 Wio3G.menu.Debug.Enabled.build.debug_print=-O0 -DWIO_DEBUG
 
 Wio3G.upload.tool=openocd
+Wio3G.upload.protocol=openocd
 Wio3G.upload.maximum_size=2097152
 Wio3G.upload.maximum_data_size=262144
 
@@ -82,6 +84,7 @@ WioLTEM1BG96.menu.Debug.Enabled=DebugON
 WioLTEM1BG96.menu.Debug.Enabled.build.debug_print=-O0 -DWIO_DEBUG
 
 WioLTEM1BG96.upload.tool=openocd
+WioLTEM1BG96.upload.protocol=openocd
 WioLTEM1BG96.upload.maximum_size=2097152
 WioLTEM1BG96.upload.maximum_data_size=262144
 
