@@ -1,0 +1,7 @@
+{
+    "description":"Arduino Wiring-based Framework (Seeed Wio)",
+    "name":"framework-arduino-wio",
+    "url":"https://github.com/SeeedJP/Arduino_Core_STM32",
+    "version":"1.3.0"
+}
+
