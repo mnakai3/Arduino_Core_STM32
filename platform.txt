@@ -125,10 +125,6 @@ recipe.output.save_file={build.project_name}.{build.variant}.bin
 ## Create output (.hex file)
 recipe.objcopy.hex.pattern="{compiler.path}{compiler.objcopy.cmd}" {compiler.elf2hex.flags} {compiler.elf2hex.extra_flags} "{build.path}/{build.project_name}.elf" "{build.path}/{build.project_name}.hex"
 
-## Save hex
-recipe.output.tmp_file={build.project_name}.hex
-recipe.output.save_file={build.project_name}.{build.variant}.hex
-
 ## Compute size
 recipe.size.pattern="{compiler.path}{compiler.size.cmd}" -A "{build.path}/{build.project_name}.elf"
 recipe.size.regex=^(?:\.text|\.data|\.rodata)\s+([0-9]+).*
