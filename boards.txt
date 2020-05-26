@@ -50,16 +50,19 @@ Wio3G.build.series=STM32F4xx
 Wio3G.build.product_line=STM32F439xx
 Wio3G.build.variant=WIO_3G
 Wio3G.build.cmsis_lib_gcc=arm_cortexM4l_math
+Wio3G.build.openocdscript=openocd_scripts/wio_3g.cfg
 
 Wio3G.menu.Debug.Disabled=DebugOFF
 Wio3G.menu.Debug.Disabled.build.debug_print=-Os
 Wio3G.menu.Debug.Enabled=DebugON
-Wio3G.menu.Debug.Enabled.build.debug_print=-O0 -DWIO_DEBUG
+Wio3G.menu.Debug.Enabled.build.debug_print=-O0 -g -DWIO_DEBUG
 
 Wio3G.upload.tool=openocd
 Wio3G.upload.protocol=openocd
 Wio3G.upload.maximum_size=2097152
 Wio3G.upload.maximum_data_size=262144
+
+Wio3G.debug.tool=gdb
 
 ################################################################################
 # Seeed Wio LTE M1/NB1(BG96)

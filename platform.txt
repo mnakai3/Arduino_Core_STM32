@@ -215,3 +215,11 @@ tools.openocd.cmd.windows=bin/openocd.exe
 tools.openocd.upload.params.verbose=-d2
 tools.openocd.upload.params.quiet=-d0
 tools.openocd.upload.pattern="{path}/{cmd}" -f "{path}/scripts/interface/cmsis-dap.cfg" -c 'transport select swd' -f "{path}/scripts/target/stm32f4x.cfg" -c "program {{{build.path}/{build.project_name}.bin}} verify reset 0x08000000; shutdown"
+
+# GDB (Debugger)
+# ---------------------
+
+tools.gdb.path={runtime.tools.arm-none-eabi-gcc-8.2.1-1.7.path}/bin/
+tools.gdb.cmd=arm-none-eabi-gdb
+tools.gdb.cmd.windows=arm-none-eabi-gdb.exe
+tools.gdb.debug.pattern="{path}/{cmd}" --interpreter=mi2 -ex "set pagination off" -ex 'target extended-remote | {tools.openocd.path}/{tools.openocd.cmd} -s "{tools.openocd.path}/share/openocd/scripts/" --file "{runtime.platform.path}/variants/{build.variant}/{build.openocdscript}" -c "gdb_port pipe" -c "telnet_port 0"' {build.path}/{build.project_name}.elf
