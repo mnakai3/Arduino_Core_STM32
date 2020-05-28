@@ -80,15 +80,18 @@ WioLTEM1BG96.build.series=STM32F4xx
 WioLTEM1BG96.build.product_line=STM32F439xx
 WioLTEM1BG96.build.variant=WIO_3G
 WioLTEM1BG96.build.cmsis_lib_gcc=arm_cortexM4l_math
+WioLTEM1BG96.build.openocdscript=openocd_scripts/wio_3g.cfg
 
 WioLTEM1BG96.menu.Debug.Disabled=DebugOFF
 WioLTEM1BG96.menu.Debug.Disabled.build.debug_print=-Os
 WioLTEM1BG96.menu.Debug.Enabled=DebugON
-WioLTEM1BG96.menu.Debug.Enabled.build.debug_print=-O0 -DWIO_DEBUG
+WioLTEM1BG96.menu.Debug.Enabled.build.debug_print=-O0 -g -DWIO_DEBUG
 
 WioLTEM1BG96.upload.tool=openocd
 WioLTEM1BG96.upload.protocol=openocd
 WioLTEM1BG96.upload.maximum_size=2097152
 WioLTEM1BG96.upload.maximum_data_size=262144
+
+WioLTEM1BG96.debug.tool=gdb
 
 ################################################################################
